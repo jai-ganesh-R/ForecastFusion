@@ -10,7 +10,7 @@ const MODEL_COLORS = {
 };
 
 export const WeightAttributionCard = ({ modelKey, modelName, weight, factors = [], biasTendency }) => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const color = MODEL_COLORS[modelKey] || '#94a3b8';
 
   // Separate positive and negative factors

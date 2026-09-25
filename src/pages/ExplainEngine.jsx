@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { BrainCircuit, Sparkles, RotateCcw, SlidersHorizontal, Info } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { BrainCircuit, Sparkles, RotateCcw, SlidersHorizontal, Info, Check } from 'lucide-react';
 import { useForecastStore } from '../store/useForecastStore';
 import { WeightAttributionCard } from '../components/panels/WeightAttributionCard';
 import { GlassCard } from '../components/ui/GlassCard';
@@ -24,23 +24,29 @@ const MODEL_BIAS = {
 export const ExplainEngine = () => {
   const {
     selectedRegionId, setSelectedRegion, getCurrentRegion,
-    getCurrentWeightsData, setWhatIfWeights, clearWhatIfWeights
+    getCurrentWeightsData, setWhatIfWeights, clearWhatIfWeights,
+    whatIfWeights
   } = useForecastStore();
   const { t } = useLanguage();
 
-  const currentRegion   = getCurrentRegion();
-  const weightsData     = getCurrentWeightsData();
-  const realWeights     = weightsData.baselineWeights;
+  const currentRegion = getCurrentRegion();
+  const weightsData   = getCurrentWeightsData();
+  const realWeights   = weightsData.baselineWeights;
 
-  const [sliders, setSliders]     = useState({ ...realWeights });
-  const [whatIfMode, setWhatIfMode] = useState(false);
+  const [sliders, setSliders]       = useState(() => whatIfWeights || { ...realWeights });
+  const [whatIfMode, setWhatIfMode] = useState(() => Boolean(whatIfWeights));
 
-  // Re-sync sliders when region changes
+  const prevRegionRef = useRef(selectedRegionId);
+
+  // Re-sync sliders ONLY when selectedRegionId actually changes
   useEffect(() => {
-    setSliders({ ...realWeights });
-    setWhatIfMode(false);
-    clearWhatIfWeights();
-  }, [selectedRegionId, clearWhatIfWeights, realWeights]);
+    if (prevRegionRef.current !== selectedRegionId) {
+      prevRegionRef.current = selectedRegionId;
+      setSliders({ ...realWeights });
+      setWhatIfMode(false);
+      clearWhatIfWeights();
+    }
+  }, [selectedRegionId, realWeights, clearWhatIfWeights]);
 
   // Smooth proportional balance so the dragged slider moves freely to exact value
   // and the remaining sliders smoothly distribute the remainder (sum always = 100%)
@@ -213,16 +219,16 @@ export const ExplainEngine = () => {
                     </div>
                   </div>
                   <input
-                    type="range" min={0} max={80} step={1}
-                    value={sliders[key]}
+                    type="range" min={0} max={100} step={1}
+                    value={sliders[key] ?? 0}
                     onChange={e => handleSlider(key, e.target.value)}
                     className="w-full h-2 rounded-full appearance-none cursor-pointer"
-                    style={{ background: `linear-gradient(to right, ${meta.color} 0%, ${meta.color} ${(val/80)*100}%, #1e293b ${(val/80)*100}%, #1e293b 100%)` }}
+                    style={{ background: `linear-gradient(to right, ${meta.color} 0%, ${meta.color} ${val}%, #1e293b ${val}%, #1e293b 100%)` }}
                   />
                   <div className="flex justify-between text-[10px] font-mono text-slate-500 mt-1">
                     <span>0%</span>
                     <span className="text-slate-600">Actual: {realVal}%</span>
-                    <span>80%</span>
+                    <span>100%</span>
                   </div>
                 </div>
               );
