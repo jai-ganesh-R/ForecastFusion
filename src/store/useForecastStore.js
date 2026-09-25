@@ -18,6 +18,9 @@ export const useForecastStore = create((set, get) => ({
   selectedRegionId: "mumbai-konkan",
   activeLayer: "confidence", // 'confidence' | 'weights' | 'rainfall'
 
+  // User Experience Mode: 'citizen' (simple, friendly, visual, voice) vs 'expert' (deep science, raw NWP, Kalman)
+  viewMode: 'citizen',
+
   // Live Microservice Feed Mode
   isLiveMode: true,
   liveForecastData: {}, // { [regionId]: { rawDays, fetchedAt, latencyMs, ... } }
@@ -58,6 +61,9 @@ export const useForecastStore = create((set, get) => ({
   },
 
   setActiveLayer: (layer) => set({ activeLayer: layer }),
+
+  setViewMode: (mode) => set({ viewMode: mode }),
+  toggleViewMode: () => set((state) => ({ viewMode: state.viewMode === 'citizen' ? 'expert' : 'citizen' })),
 
   toggleLiveMode: () => {
     const nextMode = !get().isLiveMode;

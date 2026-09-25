@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, SlidersHorizontal, RefreshCw, Globe } from 'lucide-react';
+import { MapPin, SlidersHorizontal, RefreshCw, Globe, Sparkles } from 'lucide-react';
 import { useForecastStore } from '../store/useForecastStore';
+import { CitizenDashboard } from '../components/citizen/CitizenDashboard';
 import { IndiaMap } from '../components/map/IndiaMap';
 import { BlendCompareChart } from '../components/charts/BlendCompareChart';
 import { SkillMetricChart } from '../components/charts/SkillMetricChart';
@@ -19,7 +20,8 @@ export const Dashboard = () => {
     getCurrentSignals, getCurrentSkillMetrics,
     whatIfWeights, clearWhatIfWeights,
     isLiveMode, toggleLiveMode, fetchLiveForecast,
-    isFetchingLive, lastFetchedAt, liveLatencies
+    isFetchingLive, lastFetchedAt, liveLatencies,
+    viewMode, setViewMode
   } = useForecastStore();
   const { t } = useLanguage();
 
@@ -32,6 +34,11 @@ export const Dashboard = () => {
     }
   }, [selectedRegionId, isLiveMode, fetchLiveForecast]);
 
+  // If in Citizen Mode, render the clean, accessible, voice-enabled citizen view!
+  if (viewMode === 'citizen') {
+    return <CitizenDashboard />;
+  }
+
   const currentRegion  = getCurrentRegion();
   const forecasts      = getCurrentForecasts();
   const weightsData    = getCurrentWeightsData();
@@ -41,6 +48,19 @@ export const Dashboard = () => {
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
+      {/* Return to Citizen Mode Ribbon */}
+      <div className="flex items-center justify-between p-3 rounded-xl bg-cyan-950/40 border border-cyan-500/40 text-xs font-mono">
+        <div className="flex items-center gap-2 text-cyan-300">
+          <span className="p-1 rounded bg-cyan-500/20 text-cyan-400">🔬</span>
+          <span><strong>SCIENTIST / PRO MODE ACTIVE:</strong> Showing deep NWP ensemble curves, Kalman filter attributions, and GRIB2 telemetry.</span>
+        </div>
+        <button
+          onClick={() => setViewMode('citizen')}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black font-bold transition text-[11px] shadow shrink-0"
+        >
+          <span>🌱 Switch to Simple Citizen Mode</span>
+        </button>
+      </div>
       {/* What-If Active Banner */}
       {whatIfWeights && (
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-xl bg-amber-950/40 border border-amber-500/50 text-amber-200 text-xs font-mono backdrop-blur-md shadow-[0_0_15px_rgba(245,158,11,0.15)] animate-fadeIn">

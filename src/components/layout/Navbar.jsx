@@ -18,7 +18,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import { LanguageSwitcher } from '../ui/LanguageSwitcher';
 
 export const Navbar = () => {
-  const { pipelineState } = useForecastStore();
+  const { pipelineState, viewMode, setViewMode } = useForecastStore();
   const { t } = useLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -118,8 +118,34 @@ export const Navbar = () => {
             })}
           </nav>
 
-          {/* Right side: language switcher + status + hamburger */}
+          {/* Right side: Mode pill + language switcher + status + hamburger */}
           <div className="flex items-center space-x-3">
+            {/* Citizen vs Pro Mode Toggle Pill */}
+            <div className="flex items-center bg-slate-900/90 border border-slate-700/80 rounded-xl p-0.5 text-xs font-mono shadow-inner">
+              <button
+                onClick={() => setViewMode('citizen')}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg transition-all ${
+                  viewMode === 'citizen'
+                    ? 'bg-emerald-500 text-black font-bold shadow-[0_0_12px_rgba(16,185,129,0.5)]'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+                title="Simple Citizen Mode with voice assistance"
+              >
+                <span>🌱 Citizen</span>
+              </button>
+              <button
+                onClick={() => setViewMode('expert')}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg transition-all ${
+                  viewMode === 'expert'
+                    ? 'bg-cyan-500 text-black font-bold shadow-[0_0_12px_rgba(0,229,255,0.5)]'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+                title="Advanced NWP and scientific curves"
+              >
+                <span>🔬 Pro</span>
+              </button>
+            </div>
+
             {/* Language Switcher */}
             <LanguageSwitcher />
 
