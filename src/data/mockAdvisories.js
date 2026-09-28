@@ -1,4 +1,110 @@
-// Plain-language advisories — English, Hindi, Tamil, Telugu, Kannada, Bengali, Marathi
+// Plain-language advisories — English, Hindi, Tamil, Telugu, Kannada, Bengali, Marathi, Punjabi
+export const ACTION_TRANSLATIONS = {
+  hi: {
+    "Stay indoors and move to higher ground if you live in low-lying areas.": "घर के अंदर रहें और निचले इलाकों में रहने पर तुरंत ऊंची जगह जाएं।",
+    "Fishermen: Do NOT go to sea. Return to shore immediately.": "मछुआरों के लिए: समुद्र में न जाएं। तुरंत तट पर वापस आएं।",
+    "Avoid driving through flooded roads. Turn around, don't drown.": "जलभराव वाली सड़कों पर वाहन न चलाएं। पानी में गाड़ी न डालें।",
+    "Keep your phone charged and follow local government alerts.": "फोन चार्ज रखें और स्थानीय आपदा प्रबंधन के निर्देशों का पालन करें।",
+    "Drink water every hour, even if you don't feel thirsty.": "हर घंटे पानी पिएं, चाहे प्यास न भी लगे।",
+    "Stay in shade or indoors between 12pm–4pm. Peak heat time.": "दोपहर 12 से 4 बजे तक धूप से बचें या घर के अंदर रहें।",
+    "Check on elderly neighbors — they are most at risk from heat.": "बुजुर्ग पड़ोसियों का हालचाल लें — उन्हें गर्मी से सबसे ज्यादा खतरा है।",
+    "Power grid may be stressed — avoid unnecessary high-energy use.": "बिजली ग्रिड पर दबाव हो सकता है — अतिरिक्त उपकरण बंद रखें।",
+    "Stay inside with fans or AC. Do NOT go outside between 11am–5pm.": "पंखे या कूलर में रहें। सुबह 11 से शाम 5 बजे बाहर न निकलें।",
+    "Drink water every 20–30 minutes. Avoid tea, coffee and alcohol.": "हर 20-30 मिनट में पानी पिएं। चाय, कॉफी से बचें।",
+    "If you see someone collapse from heat: move to shade, pour water on them, call 108.": "यदि कोई गर्मी से बेहोश हो: छाया में ले जाएं, पानी डालें और 108 पर कॉल करें।",
+    "Farmers: Keep livestock in shade with plenty of water.": "किसान भाइयों: पशुओं को छायादार स्थान पर बांधें और पर्याप्त पानी दें।",
+    "Move to higher ground immediately if you live near rivers or low areas.": "नदी के किनारे या निचले इलाकों से तुरंत ऊंची सुरक्षित जगह जाएं।",
+    "Do not cross rivers by boat unless absolutely necessary.": "बहुत जरूरी न हो तो नाव से नदी पार न करें।",
+    "Keep emergency kit ready: documents, medicines, food, water.": "आपातकालीन किट तैयार रखें: जरूरी कागजात, दवाएं, सूखा भोजन और पानी।",
+    "Monitor local Brahmaputra flood control room announcements.": "स्थानीय बाढ़ नियंत्रण कक्ष की घोषणाओं पर नजर रखें।",
+    "Fishermen: Stay ashore. Do not go beyond 12 nautical miles.": "मछुआरे तट पर रहें। समुद्र में 12 नॉटिकल मील से आगे न जाएं।",
+    "Clear storm-water drains in low-lying areas before rain arrives.": "बारिश शुरू होने से पहले जल निकासी की नालियां साफ रखें।",
+    "Avoid driving through waterlogged roads in Mylapore, Adyar.": "जलभराव वाले रास्तों पर गाड़ी चलाने से बचें।",
+    "Listen to All India Radio and follow Chennai Corporation updates.": "आकाशवाणी सुनें और नगर निगम के निर्देशों का पालन करें।",
+    "Stay indoors. Secure loose items outside your home.": "घर के अंदर रहें। घर के बाहर रखे ढीले सामान को सुरक्षित बांध लें।",
+    "Suspend all river ferry operations on the Hooghly.": "हुगली नदी पर सभी नौका सेवाएं स्थगित रखें।",
+    "Sundarbans residents: Move to NDRF relief camps immediately.": "सुंदरवन निवासी: तुरंत एनडीआरएफ राहत शिविरों में चले जाएं।",
+    "Keep emergency numbers handy: NDRF 011-24363260, Disaster Helpline 1078.": "आपातकालीन नंबर पास रखें: आपदा हेल्पलाइन 1078, एनडीआरएफ।",
+    "Carry an umbrella for afternoon showers. Light rain expected.": "दोपहर की बौछारों के लिए छाता साथ रखें। हल्की बारिश संभव है।",
+    "Minor waterlogging possible in low-lying areas like Koramangala.": "निचले क्षेत्रों में मामूली जलभराव संभव है।",
+    "Normal outdoor activities are safe. Enjoy the weather!": "सामान्य बाहरी गतिविधियां सुरक्षित हैं। मौसम का आनंद लें!",
+    "Avoid Falaknuma and Amberpet low-lying roads during rain.": "बारिश के दौरान निचले जलभराव वाले रास्तों से बचें।",
+    "Check Hussain Sagar Lake overflow during peak rain hours.": "झील के आसपास जलस्तर पर सावधानी बरतें।",
+    "Follow GHMC Hyderabad alerts on social media for road closures.": "रास्ता बंद होने की जानकारी के लिए नगर निगम अलर्ट देखें।",
+    "Good time for kharif crop irrigation management.": "खरीफ फसल सिंचाई प्रबंधन के लिए उपयुक्त समय।",
+    "Monitor Kaliasot river level if driving near Bhopal city limits.": "भोपाल शहर सीमा के पास नदी के जलस्तर पर ध्यान दें।",
+    "Normal activities are safe. Standard flood monitoring in place.": "सामान्य गतिविधियां सुरक्षित हैं। मानक निगरानी जारी है।",
+    "Char land residents: Evacuate NOW to BSDMA relief camps.": "नदी द्वीप निवासी: तुरंत राहत शिविरों में चले जाएं।",
+    "Pre-position boats in Muzaffarpur, Darbhanga and Sitamarhi.": "संवेदनशील इलाकों में नावों की तैनाती सुनिश्चित करें।",
+    "Follow Bihar Disaster Management Authority (BSDMA) announcements.": "बिहार राज्य आपदा प्रबंधन प्राधिकरण (BSDMA) की घोषणाएं सुनें।",
+    "Ensure medicines, clean water and food stocks for 3 days.": "कम से कम 3 दिनों के लिए दवाएं, पीने का साफ पानी और राशन सुरक्षित रखें।"
+  },
+  ta: {
+    "Stay indoors and move to higher ground if you live in low-lying areas.": "வீட்டிலேயே இருங்கள், தாழ்வான பகுதியில் வசித்தால் மேடான பகுதிக்கு செல்லவும்.",
+    "Fishermen: Do NOT go to sea. Return to shore immediately.": "மீனவர்கள்: கடலுக்கு செல்ல வேண்டாம். உடனடியாக கரைக்கு திரும்பவும்.",
+    "Avoid driving through flooded roads. Turn around, don't drown.": "வெள்ளம் சூழ்ந்த சாலைகளில் வாகனம் ஓட்டுவதை தவிர்க்கவும்.",
+    "Keep your phone charged and follow local government alerts.": "தொலைபேசியை சார்ஜ் செய்து அரசு எச்சரிக்கைகளை கவனிக்கவும்.",
+    "Drink water every hour, even if you don't feel thirsty.": "தாகம் எடுக்காவிட்டாலும் மணிதோறும் தண்ணீர் குடியுங்கள்.",
+    "Stay in shade or indoors between 12pm–4pm. Peak heat time.": "மதியம் 12 முதல் 4 வரை வெயிலில் செல்வதை தவிர்க்கவும்."
+  },
+  pa: {
+    "Stay indoors and move to higher ground if you live in low-lying areas.": "ਘਰ ਦੇ ਅੰਦਰ ਰਹੋ ਅਤੇ ਹੇਠਲੇ ਇਲਾਕਿਆਂ ਵਿੱਚ ਰਹਿਣ ਵਾਲੇ ਉੱਚੀ ਜਗ੍ਹਾ ਚਲੇ ਜਾਓ।",
+    "Fishermen: Do NOT go to sea. Return to shore immediately.": "ਮਛੇਰੇ ਸਮੁੰਦਰ ਵਿੱਚ ਨਾ ਜਾਣ ਅਤੇ ਤੁਰੰਤ ਕਿਨਾਰੇ ਪਰਤ ਆਉਣ।",
+    "Avoid driving through flooded roads. Turn around, don't drown.": "ਪਾਣੀ ਨਾਲ ਭਰੀਆਂ ਸੜਕਾਂ 'ਤੇ ਗੱਡੀ ਨਾ ਚਲਾਓ।",
+    "Keep your phone charged and follow local government alerts.": "ਫ਼ੋਨ ਚਾਰਜ ਰੱਖੋ ਅਤੇ ਸਰਕਾਰੀ ਚੇਤਾਵਨੀਆਂ ਦਾ ਪਾਲਣ ਕਰੋ।",
+    "Drink water every hour, even if you don't feel thirsty.": "ਹਰ ਘੰਟੇ ਪਾਣੀ ਪੀਓ, ਭਾਵੇਂ ਪਿਆਸ ਨਾ ਵੀ ਲੱਗੀ ਹੋਵੇ।",
+    "Stay in shade or indoors between 12pm–4pm. Peak heat time.": "ਦੁਪਹਿਰ 12 ਤੋਂ 4 ਵਜੇ ਦਰਮਿਆਨ ਘਰ ਦੇ ਅੰਦਰ ਜਾਂ ਛਾਂ ਵਿੱਚ ਰਹੋ।",
+    "Check on elderly neighbors — they are most at risk from heat.": "ਬਜ਼ੁਰਗ ਗੁਆਂਢੀਆਂ ਦਾ ਧਿਆਨ ਰੱਖੋ — ਗਰਮੀ ਤੋਂ ਉਹਨਾਂ ਨੂੰ ਵੱਧ ਖਤਰਾ ਹੈ।"
+  }
+};
+
+export const GROUP_TRANSLATIONS = {
+  hi: {
+    "🌊 Coastal residents": "🌊 तटीय निवासी",
+    "🎣 Fishermen": "🎣 मछुआरे बंधु",
+    "🚌 Commuters": "🚌 दैनिक यात्री",
+    "🏘️ Low-lying settlements": "🏘️ निचली बस्तियां",
+    "👷 Outdoor workers": "👷 बाहर काम करने वाले मजदूर",
+    "👴 Elderly": "👴 बुजुर्ग नागरिक",
+    "👶 Children": "👶 छोटे बच्चे",
+    "🚜 Farmers": "🚜 किसान भाई",
+    "🌾 Farmers": "🌾 कृषक",
+    "🐄 Livestock": "🐄 पशुधन",
+    "⛵ Boatmen": "⛵ नाविक",
+    "🏫 Schools near rivers": "🏫 नदी किनारे के विद्यालय",
+    "🏝️ Sundarbans island residents": "🏝️ सुंदरवन द्वीप निवासी",
+    "⛵ River ferry operators": "⛵ नौका चालक",
+    "🏘️ South 24 Parganas": "🏘️ दक्षिण 24 परगना",
+    "🚗 Commuters": "🚗 यात्री",
+    "🏗️ Construction workers": "🏗️ निर्माण कर्मी",
+    "🛵 Two-wheeler riders": "🛵 दोपहिया चालक",
+    "🏝️ Char land residents": "🏝️ नदी द्वीप (चर) निवासी",
+    "🏘️ Low embankment settlements": "🏘️ तटबंध के समीपवर्ती निवासी",
+    "🚗 Highway commuters": "🚗 राजमार्ग यात्री"
+  },
+  pa: {
+    "🌊 Coastal residents": "🌊 ਤੱਟੀ ਨਿਵਾਸੀ",
+    "🎣 Fishermen": "🎣 ਮਛੇਰੇ",
+    "🚌 Commuters": "🚌 ਯਾਤਰੀ",
+    "🏘️ Low-lying settlements": "🏘️ ਨੀਵੇਂ ਇਲਾਕਿਆਂ ਦੇ ਵਸਨੀਕ",
+    "👷 Outdoor workers": "👷 ਮਜ਼ਦੂਰ",
+    "👴 Elderly": "👴 ਬਜ਼ੁਰਗ",
+    "👶 Children": "👶 ਬੱਚੇ",
+    "🚜 Farmers": "🚜 ਕਿਸਾਨ",
+    "🌾 Farmers": "🌾 ਕਿਸਾਨ",
+    "🐄 Livestock": "🐄 ਪਸ਼ੂ",
+    "🚗 Commuters": "🚗 ਯਾਤਰੀ"
+  }
+};
+
+export const getLocalizedAction = (actionStr, lang) => {
+  return ACTION_TRANSLATIONS[lang]?.[actionStr] || actionStr;
+};
+
+export const getLocalizedGroup = (groupStr, lang) => {
+  return GROUP_TRANSLATIONS[lang]?.[groupStr] || groupStr;
+};
+
 export const getRegionAdvisories = (regionId) => {
   const advisories = {
     "mumbai-konkan": {
@@ -14,6 +120,7 @@ export const getRegionAdvisories = (regionId) => {
       summaryKn: "ಭಾರೀ ಮಳೆ ಎಚ್ಚರಿಕೆ: ಮುಂಬೈ, ಠಾಣೆ ಮತ್ತು ರಾಯಗಡ ಜಿಲ್ಲೆಗಳಲ್ಲಿ ಮುಂದಿನ 36 ಗಂಟೆಗಳಲ್ಲಿ ಅತಿ ಭಾರೀ ಮಳೆ ನಿರೀಕ್ಷಿಸಲಾಗಿದೆ. 60 ಕಿ.ಮೀ/ಗಂ ಗಾಳಿ. ಕರಾವಳಿ ಮತ್ತು ತಗ್ಗು ಪ್ರದೇಶಗಳಿಗೆ ಹೋಗಬೇಡಿ.",
       summaryBn: "ভারী বৃষ্টির সতর্কতা: মুম্বাই, থানে এবং রায়গড়ে আগামী ৩৬ ঘণ্টায় অতি ভারী বৃষ্টি। ৬০ কি.মি./ঘন্টা পর্যন্ত বাতাস। উপকূলীয় ও নিচু এলাকায় যাবেন না।",
       summaryMr: "जड पावसाची चेतावनी: मुंबई, ठाणे आणि रायगड जिल्ह्यांमध्ये पुढील 36 तासांत अति जड पाऊस. 60 किमी/तास वेगाचे वारे. किनारी व सखल भागात जाऊ नका.",
+      summaryPa: "ਭਾਰੀ ਮੀਂਹ ਦੀ ਚੇਤਾਵਨੀ: ਅਗਲੇ 36 ਘੰਟਿਆਂ ਵਿੱਚ ਮੁੰਬਈ, ਠਾਣੇ ਅਤੇ ਰਾਏਗੜ੍ਹ ਵਿੱਚ ਬਹੁਤ ਭਾਰੀ ਮੀਂਹ ਅਤੇ 60 ਕਿਮੀ/ਘੰਟਾ ਤੱਕ ਤੇਜ਼ ਹਵਾਵਾਂ। ਤੱਟਵਰਤੀ ਅਤੇ ਨੀਵੇਂ ਇਲਾਕਿਆਂ ਵਿੱਚ ਜਾਣ ਤੋਂ ਬਚੋ। ਮਛੇਰੇ ਸਮੁੰਦਰ ਵਿੱਚ ਨਾ ਜਾਣ।",
       suggestedActions: [
         { icon: "🚨", action: "Stay indoors and move to higher ground if you live in low-lying areas." },
         { icon: "🎣", action: "Fishermen: Do NOT go to sea. Return to shore immediately." },
@@ -36,6 +143,7 @@ export const getRegionAdvisories = (regionId) => {
       summaryKn: "ಶಾಖ ಸಲಹೆ: ಬಿಸಿ ಮತ್ತು ಶುಷ್ಕ ದಿನ ನಿರೀಕ್ಷಿಸಲಾಗಿದೆ. ತಾಪಮಾನ 38°C ಹತ್ತಿರ. ನೀರು ಕುಡಿಯುತ್ತಿರಿ. ಮಧ್ಯಾಹ್ನ 12 ರಿಂದ 4 ರವರೆಗೆ ಹೊರಗೆ ಹೋಗಬೇಡಿ.",
       summaryBn: "তাপ পরামর্শ: গরম ও শুষ্ক দিন প্রত্যাশিত। তাপমাত্রা ৩৮°C কাছাকাছি। প্রচুর পানি পান করুন। দুপুর ১২টা থেকে ৪টার মধ্যে বাইরে যাবেন না।",
       summaryMr: "उष्णता सल्ला: उष्ण आणि कोरडा दिवस अपेक्षित. तापमान 38°C जवळ. पाणी पित राहा. दुपारी 12 ते 4 वाजेपर्यंत बाहेर जाऊ नका.",
+      summaryPa: "ਗਰਮੀ ਦੀ ਚੇਤਾਵਨੀ: ਅੱਜ ਗਰਮ ਅਤੇ ਖੁਸ਼ਕ ਦਿਨ ਰਹਿਣ ਦੀ ਸੰਭਾਵਨਾ। ਤਾਪਮਾਨ 38°C ਦੇ ਨੇੜੇ। ਪਾਣੀ ਪੀਂਦੇ ਰਹੋ। ਦੁਪਹਿਰ 12 ਤੋਂ 4 ਵਜੇ ਤੱਕ ਬਾਹਰ ਜਾਣ ਤੋਂ ਬਚੋ। ਬਜ਼ੁਰਗ ਅਤੇ ਬੱਚੇ ਘਰ ਵਿੱਚ ਰਹਿਣ।",
       suggestedActions: [
         { icon: "💧", action: "Drink water every hour, even if you don't feel thirsty." },
         { icon: "🏠", action: "Stay in shade or indoors between 12pm–4pm. Peak heat time." },
@@ -58,6 +166,7 @@ export const getRegionAdvisories = (regionId) => {
       summaryKn: "ತೀವ್ರ ಉಷ್ಣ ತರಂಗ: 42°C ಅಥವಾ ಅದಕ್ಕಿಂತ ಹೆಚ್ಚಿನ ತಾಪಮಾನ ನಿರೀಕ್ಷಿಸಲಾಗಿದೆ. ಒಳಗೆ ಇರಿ, ಆಗಾಗ ನೀರು ಕುಡಿಯಿರಿ, ಶಾಖಘಾತದ ಚಿಹ್ನೆಗಳನ್ನು ನೋಡಿ.",
       summaryBn: "তীব্র তাপপ্রবাহ: ৪২°C বা তার বেশি তাপমাত্রা প্রত্যাশিত। ভিতরে থাকুন, ঘন ঘন পানি পান করুন, হিটস্ট্রোকের লক্ষণ দেখুন।",
       summaryMr: "तीव्र उष्णलाट: 42°C किंवा जास्त तापमान अपेक्षित. आत राहा, वारंवार पाणी प्या, उष्माघाताच्या लक्षणांकडे लक्ष द्या.",
+      summaryPa: "ਭਿਆਨਕ ਗਰਮੀ ਦੀ ਲਹਿਰ: ਤਾਪਮਾਨ 42°C ਜਾਂ ਇਸ ਤੋਂ ਵੱਧ ਹੋਣ ਦੀ ਸੰਭਾਵਨਾ। ਕਮਜ਼ੋਰ ਲੋਕਾਂ ਲਈ ਇਹ ਐਮਰਜੈਂਸੀ ਹੈ। ਘਰ ਅੰਦਰ ਰਹੋ, ਲਗਾਤਾਰ ਪਾਣੀ ਪੀਓ ਅਤੇ ਲੂ ਦੇ ਲੱਛਣਾਂ 'ਤੇ ਨਜ਼ਰ ਰੱਖੋ।",
       suggestedActions: [
         { icon: "🏠", action: "Stay inside with fans or AC. Do NOT go outside between 11am–5pm." },
         { icon: "💧", action: "Drink water every 20–30 minutes. Avoid tea, coffee and alcohol." },
@@ -80,6 +189,7 @@ export const getRegionAdvisories = (regionId) => {
       summaryKn: "ಪ್ರವಾಹ ಎಚ್ಚರಿಕೆ: ಕಾಮ್ರೂಪ್ ಮತ್ತು ಸಮೀಪ ಬೆಟ್ಟಗಳಲ್ಲಿ ಭಾರೀ ಮಳೆ (75-100 ಮಿ.ಮೀ) ನಿರೀಕ್ಷಿಸಲಾಗಿದೆ. ನದಿ ಮಟ್ಟ ಏರುತ್ತಿದೆ. ನದಿ ತೀರದ ನಿವಾಸಿಗಳು ಎತ್ತರದ ಸ್ಥಳಗಳಿಗೆ ಸ್ಥಳಾಂತರಿಸಲು ತಯಾರಾಗಿ.",
       summaryBn: "বন্যা সতর্কতা: কামরূপ এবং পার্শ্ববর্তী পাহাড়ে ভারী বৃষ্টি (৭৫-১০০ মি.মি.) প্রত্যাশিত। নদীর জল বাড়ছে। নদী তীরের বাসিন্দারা উঁচু স্থানে যেতে প্রস্তুত থাকুন।",
       summaryMr: "पूर सतर्कता: कामरूप आणि लगतच्या टेकड्यांमध्ये जड पाऊस (75-100 मिमी) अपेक्षित. नद्यांची पातळी वाढत आहे. नदीकाठी राहणाऱ्यांनी उंच ठिकाणी जाण्यास तयार राहावे.",
+      summaryPa: "ਹੜ੍ਹ ਦੀ ਚੇਤਾਵਨੀ: ਕਾਮਰੂਪ ਅਤੇ ਆਸ ਪਾਸ ਦੇ ਪਹਾੜਾਂ ਵਿੱਚ ਭਾਰੀ ਮੀਂਹ (75-100 ਮਿਮੀ)। ਬ੍ਰਹਮਪੁੱਤਰ ਨਦੀ ਦਾ ਪਾਣੀ ਚੜ੍ਹ ਰਿਹਾ ਹੈ। ਨਦੀ ਦੇ ਨੇੜੇ ਰਹਿਣ ਵਾਲੇ ਲੋਕ ਉੱਚੀਆਂ ਥਾਵਾਂ 'ਤੇ ਜਾਣ ਲਈ ਤਿਆਰ ਰਹਿਣ।",
       suggestedActions: [
         { icon: "🏔️", action: "Move to higher ground immediately if you live near rivers or low areas." },
         { icon: "⛵", action: "Do not cross rivers by boat unless absolutely necessary." },
@@ -102,6 +212,7 @@ export const getRegionAdvisories = (regionId) => {
       summaryKn: "ಈಶಾನ್ಯ ಮಾನ್ಸೂನ್ ಸಲಹೆ: ಚೆನ್ನೈ ಮತ್ತು ತೀರ ಪ್ರದೇಶಗಳಲ್ಲಿ ಮಧ್ಯಮದಿಂದ ಭಾರೀ ಮಳೆ (35-65 ಮಿ.ಮೀ). ಸಮುದ್ರ ಕಷ್ಟಕರ. ಮೀನುಗಾರರು ಸಮುದ್ರಕ್ಕೆ ಹೋಗಬೇಡಿ.",
       summaryBn: "উত্তর-পূর্ব মৌসুমি বায়ু পরামর্শ: চেন্নাই ও উপকূলীয় এলাকায় মাঝারি থেকে ভারী বৃষ্টি (৩৫-৬৫ মি.মি.)। সমুদ্র উত্তাল। জেলেরা সমুদ্রে যাবেন না।",
       summaryMr: "ईशान्य मान्सून सल्ला: चेन्नई आणि किनारी भागांमध्ये मध्यम ते जड पाऊस (35-65 मिमी). समुद्र खडबडीत. मच्छीमारांनी समुद्रात जाऊ नये.",
+      summaryPa: "ਉੱਤਰ-ਪੂਰਬੀ ਮਾਨਸੂਨ ਸਲਾਹ: ਚੇਨਈ ਅਤੇ ਤੱਟਵਰਤੀ ਇਲਾਕਿਆਂ ਵਿੱਚ ਦਰਮਿਆਨਾ ਤੋਂ ਭਾਰੀ ਮੀਂਹ (35-65 ਮਿਮੀ)। ਸਮੁੰਦਰ ਖਰਾਬ ਰਹਿਣ ਦੀ ਸੰਭਾਵਨਾ। ਮਛੇਰੇ ਸਮੁੰਦਰ ਵਿੱਚ ਨਾ ਜਾਣ।",
       suggestedActions: [
         { icon: "🎣", action: "Fishermen: Stay ashore. Do not go beyond 12 nautical miles." },
         { icon: "🌊", action: "Clear storm-water drains in low-lying areas before rain arrives." },
@@ -120,10 +231,11 @@ export const getRegionAdvisories = (regionId) => {
       summaryEn: "CYCLONE WATCH: A low-pressure system in the Bay of Bengal is intensifying. Heavy rain (70–90 mm) and strong winds (45–60 km/h) expected over Kolkata and Sundarbans. Flooding risk is high. Stay indoors.",
       summaryHi: "चक्रवात निगरानी: बंगाल की खाड़ी में निम्न दबाव क्षेत्र तेज हो रहा है। कोलकाता और सुंदरवन में भारी बारिश (70-90 मिमी) और 45-60 किमी/घंटा हवाएं। बाढ़ का खतरा अधिक है।",
       summaryTa: "சூறாவளி கண்காணிப்பு: வங்கக் கடலில் காற்றழுத்த தாழ்வு தீவிரமடைகிறது. கொல்கத்தா மற்றும் சுந்தரவனத்தில் கனமழை (70-90 மி.மீ) மற்றும் 45-60 கி.மீ/மணி காற்று.",
-      summaryTe: "తుఫాను హెచ్చరిక: బంగాళాఖాతంలో తక్కువ పీడన వ్యవస్థ తీవ్రమవుతోంది. కలకత్తా మరియు సుందర్‌బన్స్‌లో భారీ వర్షం (70-90 మి.మీ) మరియు 45-60 కి.మీ/గం గాలులు.",
+      summaryTe: "తుఫాను హెచ్చరిక: బంగాళాఖాతంలో తక్కువ పీడన వ్యవస్థ తీవ్రమవుతోంది. కలకత్తా మరియు సుందర్‌బన్స్‌లో భారీ వర్షం (70-90 மி.மீ) మరియు 45-60 கி.மீ/గం గాలులు.",
       summaryKn: "ಚಂಡಮಾರುತ ಕಾವಲು: ಬಂಗಾಳ ಕೊಲ್ಲಿಯಲ್ಲಿ ಕಡಿಮೆ ಒತ್ತಡ ವ್ಯವಸ್ಥೆ ತೀವ್ರಗೊಳ್ಳುತ್ತಿದೆ. ಕೋಲ್ಕತ್ತಾ ಮತ್ತು ಸುಂದರ್‌ಬನ್‌ಗಳಲ್ಲಿ ಭಾರೀ ಮಳೆ ಮತ್ತು 45-60 ಕಿ.ಮೀ/ಗಂ ಗಾಳಿ.",
       summaryBn: "ঘূর্ণিঝড় পর্যবেক্ষণ: বঙ্গোপসাগরে নিম্নচাপ তীব্র হচ্ছে। কলকাতা ও সুন্দরবনে ভারী বৃষ্টি (৭০-৯০ মি.মি.) এবং ৪৫-৬০ কি.মি./ঘন্টা বাতাস। বন্যার ঝুঁকি বেশি।",
       summaryMr: "चक्रीवादळ निगराणी: बंगालच्या उपसागरात कमी दाबाचे क्षेत्र तीव्र होत आहे. कोलकाता आणि सुंदरबनांमध्ये जड पाऊस (70-90 मिमी) आणि 45-60 किमी/तास वारे.",
+      summaryPa: "ਚੱਕਰਵਾਤ ਨਿਗਰਾਨੀ: ਬੰਗਾਲ ਦੀ ਖਾੜੀ ਵਿੱਚ ਘੱਟ ਦਬਾਅ ਵਾਲਾ ਖੇਤਰ ਤੇਜ਼ ਹੋ ਰਿਹਾ ਹੈ। ਕੋਲਕਾਤਾ ਅਤੇ ਸੁੰਦਰਬਨ ਵਿੱਚ ਭਾਰੀ ਮੀਂਹ (70-90 ਮਿਮੀ) ਅਤੇ 45-60 ਕਿਮੀ/ਘੰਟਾ ਹਵਾਵਾਂ। ਹੜ੍ਹ ਦਾ ਖ਼ਤਰਾ ਜ਼ਿਆਦਾ ਹੈ।",
       suggestedActions: [
         { icon: "🏠", action: "Stay indoors. Secure loose items outside your home." },
         { icon: "⛵", action: "Suspend all river ferry operations on the Hooghly." },
@@ -140,12 +252,13 @@ export const getRegionAdvisories = (regionId) => {
       bulletinId: "IMD-FF-2026-BLR-012",
       timeValidity: "Next 24 hours",
       summaryEn: "NORMAL WEATHER: Light scattered rain showers expected in the afternoon. No danger. Keep drains clear. Enjoy the pleasant Bengaluru weather!",
-      summaryHi: "सामान्य मौसम: दोपहर में हल्की बारिश की संभावना। कोई खतरा नहीं। नालियां साफ रखें।",
+      summaryHi: "सामान्य मौसम: दोपहर में हल्की बारिश की संभावना। कोई खतरा नहीं। नालियां साफ रखें। बेंगलुरु के सुहावने मौसम का आनंद लें!",
       summaryTa: "சாதாரண வானிலை: மாலையில் லேசான மழை எதிர்பார்க்கப்படுகிறது. எந்த ஆபத்தும் இல்லை. வடிகால்களை சுத்தமாக வைக்கவும்.",
       summaryTe: "సాధారణ వాతావరణం: మధ్యాహ్నం తేలికపాటి చిరుజల్లులు ఆశించబడుతున్నాయి. ఎలాంటి ప్రమాదం లేదు. నాలాలను శుభ్రంగా ఉంచండి.",
       summaryKn: "ಸಾಮಾನ್ಯ ಹವಾಮಾನ: ಮಧ್ಯಾಹ್ನ ಹಗುರವಾದ ಮಳೆ ನಿರೀಕ್ಷಿಸಲಾಗಿದೆ. ಯಾವುದೇ ಅಪಾಯವಿಲ್ಲ. ಚರಂಡಿಗಳನ್ನು ಸ್ವಚ್ಛವಾಗಿ ಇರಿಸಿ.",
       summaryBn: "স্বাভাবিক আবহাওয়া: বিকেলে হালকা বৃষ্টির সম্ভাবনা। কোনো বিপদ নেই। ড্রেন পরিষ্কার রাখুন।",
       summaryMr: "सामान्य हवामान: दुपारी हलक्या पावसाची शक्यता. कोणताही धोका नाही. गटारे साफ ठेवा.",
+      summaryPa: "ਸਾਧਾਰਨ ਮੌਸਮ: ਦੁਪਹਿਰ ਨੂੰ ਹਲਕਾ ਮੀਂਹ ਪੈਣ ਦੀ ਸੰਭਾਵਨਾ। ਕੋਈ ਖ਼ਤਰਾ ਨਹੀਂ। ਨਾਲੀਆਂ ਸਾਫ਼ ਰੱਖੋ। ਬੈਂਗਲੁਰੂ ਦੇ ਸੁਹਾਵਣੇ ਮੌਸਮ ਦਾ ਆਨੰਦ ਲਓ!",
       suggestedActions: [
         { icon: "🌂", action: "Carry an umbrella for afternoon showers. Light rain expected." },
         { icon: "🚗", action: "Minor waterlogging possible in low-lying areas like Koramangala." },
@@ -163,10 +276,11 @@ export const getRegionAdvisories = (regionId) => {
       summaryEn: "MODERATE RAIN ADVISORY: Moderate rain (20–30 mm) expected over Hyderabad in next 24 hours. Low-lying GHMC areas may have waterlogging. Conditions improve after 48 hours.",
       summaryHi: "मध्यम वर्षा सलाह: हैदराबाद में अगले 24 घंटों में मध्यम बारिश (20-30 मिमी)। GHMC के निचले क्षेत्रों में जलभराव की संभावना। 48 घंटे बाद स्थिति सुधरेगी।",
       summaryTa: "மிதமான மழை அறிவுரை: ஹைதராபாத்தில் அடுத்த 24 மணி நேரத்தில் மிதமான மழை (20-30 மி.மீ). தாழ்வான GHMC பகுதிகளில் நீர் தேக்கம் ஏற்படலாம்.",
-      summaryTe: "మధ్యస్థ వర్షపాత సలహా: హైదరాబాద్‌లో వచ్చే 24 గంటల్లో మధ్యస్థ వర్షం (20-30 మి.మీ). GHMC తక్కువ ప్రాంతాల్లో జలమయం అవుతుంది.",
+      summaryTe: "మధ్యస్థ వర్షపాత సలహా: హైదరాబాద్‌లో వచ్చే 24 గంటల్లో మధ్యస్థ వర్షం (20-30 మి.மீ). GHMC తక్కువ ప్రాంతాల్లో జలమయం అవుతుంది.",
       summaryKn: "ಮಧ್ಯಮ ಮಳೆ ಸಲಹೆ: ಹೈದರಾಬಾದ್‌ನಲ್ಲಿ ಮುಂದಿನ 24 ಗಂಟೆಗಳಲ್ಲಿ ಮಧ್ಯಮ ಮಳೆ (20-30 ಮಿ.ಮೀ). ಕಡಿಮೆ GHMC ಪ್ರದೇಶಗಳಲ್ಲಿ ನೀರು ತುಂಬಬಹುದು.",
       summaryBn: "মাঝারি বৃষ্টির পরামর্শ: হায়দরাবাদে আগামী ২৪ ঘণ্টায় মাঝারি বৃষ্টি (২০-৩০ মি.মি.)। GHMC-র নিচু এলাকায় জলাবদ্ধতা হতে পারে।",
       summaryMr: "मध्यम पाऊस सल्ला: हैदराबादमध्ये पुढील 24 तासांत मध्यम पाऊस (20-30 मिमी). GHMC च्या सखल भागांमध्ये पाणी साचण्याची शक्यता.",
+      summaryPa: "ਦਰਮਿਆਨੇ ਮੀਂਹ ਦੀ ਸਲਾਹ: ਅਗਲੇ 24 ਘੰਟਿਆਂ ਵਿੱਚ ਹੈਦਰਾਬਾਦ ਵਿੱਚ ਦਰਮਿਆਨਾ ਮੀਂਹ (20-30 ਮਿਮੀ)। ਨੀਵੇਂ ਇਲਾਕਿਆਂ ਵਿੱਚ ਪਾਣੀ ਭਰਨ ਦਾ ਖ਼ਤਰਾ।",
       suggestedActions: [
         { icon: "🚗", action: "Avoid Falaknuma and Amberpet low-lying roads during rain." },
         { icon: "💧", action: "Check Hussain Sagar Lake overflow during peak rain hours." },
@@ -184,10 +298,11 @@ export const getRegionAdvisories = (regionId) => {
       summaryEn: "NORMAL WEATHER: Scattered moderate rain (15–25 mm) across Bhopal and Malwa Plateau. No major hazards. Rivers at normal levels. Farming conditions are good.",
       summaryHi: "सामान्य मौसम: भोपाल और मालवा पठार में छिटपुट बारिश (15-25 मिमी)। कोई बड़ा खतरा नहीं। नदियां सामान्य स्तर पर। खेती के लिए अच्छी स्थिति।",
       summaryTa: "சாதாரண வானிலை: போபால் மற்றும் மால்வா பீடபூமியில் சிதறிய மிதமான மழை (15-25 மி.மீ). பெரும் ஆபத்து இல்லை.",
-      summaryTe: "సాధారణ వాతావరణం: భోపాల్ మరియు మాల్వా పీఠభూమిలో చెదురుమదురు మధ్యస్థ వర్షం (15-25 మి.మీ). పెద్ద ప్రమాదాలు లేవు.",
+      summaryTe: "సాధారణ వాతావరణం: భోపాల్ మరియు మాల్వా పీఠభూమిలో చెదురుమదురు మధ్యస్థ వర్షం (15-25 మి.மீ). పెద్ద ప్రమాదాలు లేవు.",
       summaryKn: "ಸಾಮಾನ್ಯ ಹವಾಮಾನ: ಭೋಪಾಲ್ ಮತ್ತು ಮಾಲ್ವಾ ಪ್ರಸ್ಥಭೂಮಿಯಲ್ಲಿ ಚದುರಿದ ಮಧ್ಯಮ ಮಳೆ (15-25 ಮಿ.ಮೀ). ಯಾವುದೇ ಅಪಾಯ ಇಲ್ಲ.",
       summaryBn: "স্বাভাবিক আবহাওয়া: ভোপাল ও মালওয়া মালভূমিতে ছড়িয়ে ছিটিয়ে মাঝারি বৃষ্টি (১৫-২৫ মি.মি.)। কোনো বড় বিপদ নেই।",
       summaryMr: "सामान्य हवामान: भोपाळ आणि मालवा पठारावर विखुरलेला मध्यम पाऊस (15-25 मिमी). कोणताही मोठा धोका नाही.",
+      summaryPa: "ਸਾਧਾਰਨ ਮੌਸਮ: ਭੋਪਾਲ ਅਤੇ ਮਾਲਵਾ ਵਿੱਚ ਛਿੱਟੇ-ਪੁੱਟੇ ਮੀਂਹ (15-25 ਮਿਮੀ)। ਕੋਈ ਵੱਡਾ ਖ਼ਤਰਾ ਨਹੀਂ। ਖੇਤੀ ਲਈ ਵਧੀਆ ਸਥਿਤੀ।",
       suggestedActions: [
         { icon: "🌾", action: "Good time for kharif crop irrigation management." },
         { icon: "🚗", action: "Monitor Kaliasot river level if driving near Bhopal city limits." },
@@ -209,6 +324,7 @@ export const getRegionAdvisories = (regionId) => {
       summaryKn: "ಪ್ರವಾಹ ಅಪಾಯ ಎಚ್ಚರಿಕೆ: ಬಿಹಾರ ಬಯಲಿನಲ್ಲಿ ಭಾರೀ ಮಳೆ (65-90 ಮಿ.ಮೀ). ಗಂಡಕ್, ಕೋಸಿ ಮತ್ತು ಬಾಗ್ಮತಿ ನದಿಗಳು ಅಪಾಯದ ಮಟ್ಟದಲ್ಲಿದೆ. ನದಿ ದ್ವೀಪ ನಿವಾಸಿಗಳು ತಕ್ಷಣ ಸ್ಥಳಾಂತರಿಸಿ.",
       summaryBn: "বন্যা ঝুঁকি সতর্কতা: বিহার সমভূমিতে ভারী বৃষ্টি (৬৫-৯০ মি.মি.)। গণ্ডক, কোসি ও বাগমতি নদী বিপদ চিহ্নে বা কাছাকাছি। চর ভূমির বাসিন্দারা এখনই সরে যান।",
       summaryMr: "पूर धोका इशारा: बिहार मैदानात जड पाऊस (65-90 मिमी). गंडक, कोसी आणि बागमती नद्या धोक्याच्या पातळीवर आहेत. नदी बेटांवर (चर जमिनी) राहणाऱ्यांनी आत्ताच बाहेर पडावे.",
+      summaryPa: "ਹੜ੍ਹ ਖ਼ਤਰਾ ਚੇਤਾਵਨੀ: ਬਿਹਾਰ ਵਿੱਚ ਭਾਰੀ ਮੀਂਹ (65-90 ਮਿਮੀ)। ਗੰਡਕ, ਕੋਸੀ ਅਤੇ ਬਾਗਮਤੀ ਨਦੀਆਂ ਖ਼ਤਰੇ ਦੇ ਨਿਸ਼ਾਨ ਨੇੜੇ। ਨਦੀ ਦੇ ਵਿਚਕਾਰ ਟਾਪੂਆਂ 'ਤੇ ਰਹਿੰਦੇ ਲੋਕ ਤੁਰੰਤ ਸੁਰੱਖਿਅਤ ਥਾਵਾਂ 'ਤੇ ਪਹੁੰਚਣ।",
       suggestedActions: [
         { icon: "🏃", action: "Char land residents: Evacuate NOW to BSDMA relief camps." },
         { icon: "⛵", action: "Pre-position boats in Muzaffarpur, Darbhanga and Sitamarhi." },
@@ -232,6 +348,7 @@ export const getRegionAdvisories = (regionId) => {
     summaryKn: "ಸಾಮಾನ್ಯ ಹವಾಮಾನ: ಯಾವುದೇ ಪ್ರಮುಖ ಅಪಾಯ ನಿರೀಕ್ಷಿಸಲಾಗಿಲ್ಲ. ಸಾಮಾನ್ಯ ಋತು ಹವಾಮಾನ ಮುಂದುವರೆಯುತ್ತಿದೆ.",
     summaryBn: "স্বাভাবিক আবহাওয়া: কোনো বড় বিপদ প্রত্যাশিত নয়। স্বাভাবিক মৌসুমি আবহাওয়া চলছে।",
     summaryMr: "सामान्य हवामान: कोणताही मोठा धोका अपेक्षित नाही. सामान्य हंगामी हवामान सुरू आहे.",
+    summaryPa: "ਸਾਧਾਰਨ ਮੌਸਮ: ਕੋਈ ਵੱਡਾ ਖ਼ਤਰਾ ਨਹੀਂ। ਸਾਧਾਰਨ ਮੌਸਮੀ ਸਥਿਤੀ ਜਾਰੀ ਹੈ। ਤਾਜ਼ਾ ਜਾਣਕਾਰੀ ਲੈਂਦੇ ਰਹੋ।",
     suggestedActions: [
       { icon: "📡", action: "Continue normal monitoring of satellite and AWS data." },
       { icon: "✅", action: "All regular outdoor activities are safe to continue." },
@@ -240,4 +357,27 @@ export const getRegionAdvisories = (regionId) => {
   };
 
   return advisories[regionId] || defaultAdvisory;
+};
+
+export const STRESS_TEST_CLOUDBURST_ADVISORY = {
+  riskLevel: "RED ALERT (EXTREME CLOUDBURST)",
+  riskColor: "red",
+  riskEmoji: "🚨",
+  bulletinId: "IMD-NDMA-2026-CRITICAL-999",
+  timeValidity: "IMMEDIATE — Next 6 to 12 hours",
+  summaryEn: "URGENT FLASH FLOOD & CLOUDBURST RED ALERT: Extreme precipitation exceeding 245 mm/24hr detected with severe localized squalls (85 km/h). Immediate danger of urban inundation, river embankment overflow, and mountain flash floods. Evacuate low-lying zones immediately.",
+  summaryHi: "अति आवश्यक बादल फटने और बाढ़ का रेड अलर्ट: 245 मिमी से अधिक मूसलाधार बारिश और 85 किमी/घंटा की तूफानी हवाओं का गंभीर खतरा है। निचले इलाकों में तुरंत जलभराव और बाढ़ का खतरा। सभी नागरिक तुरंत सुरक्षित स्थानों पर जाएं।",
+  summaryTa: "அவசர பெருமழை மற்றும் மேகவெடிப்பு ரெட் அலர்ட்: 245 மி.மீ-க்கும் அதிகமான அதீத கனமழை மற்றும் 85 கி.மீ வேகத்தில் புயல் காற்று வீசக்கூடும். தாழ்வான பகுதிகள் உடனடியாக வெளியேற வேண்டும்.",
+  summaryTe: "అత్యవసర క్లౌడ్‌బర్స్ట్ మరియు వరద రెడ్ అలర్ట్: 245 మి.మీ కంటే ఎక్కువ భారీ వర్షపాతం మరియు 85 కి.మీ వేగంతో బలమైన గాలులు వీచే ప్రమాదం ఉంది. ముంపు ప్రాంతాల ప్రజలు వెంటనే ఖాళీ చేయాలి.",
+  summaryKn: "ತುರ್ತು ಮೇಘಸ್ಫೋಟ ಮತ್ತು ಪ್ರವಾಹ ರೆಡ್ ಅಲರ್ಟ್: 245 ಮಿ.ಮೀ ಗಿಂತ ಹೆಚ್ಚು ಧಾರಾಕಾರ ಮಳೆ ಮತ್ತು 85 ಕಿ.ಮೀ ವೇಗದ ಬಿರುಗಾಳಿ ನಿರೀಕ್ಷಿಸಲಾಗಿದೆ. ತಗ್ಗು ಪ್ರದೇಶಗಳ ಜನರು ತಕ್ಷಣ ಸುರಕ್ಷಿತ ಸ್ಥಳಕ್ಕೆ ತೆರಳಬೇಕು.",
+  summaryBn: "জরুরি মেঘভাঙা বৃষ্টি ও বন্যা রেড অ্যালার্ট: ২৪৫ মিলিমিটারের বেশি অতি ভারী বৃষ্টিপাত ও ৮৫ কিমি/ঘণ্টা বেগে ঝোড়ো হাওয়ার প্রবল সতর্কতা। নিম্নাঞ্চলের বাসিন্দাদের অবিলম্বে নিরাপদ আশ্রয়ে যেতে হবে।",
+  summaryMr: "तातडीचा ढगफुटी आणि पूर रेड अलर्ट: 245 मिमी पेक्षा जास्त मुसळधार पाऊस आणि 85 किमी/तास वेगाचे वादळी वारे वाहण्याची शक्यता. सखल भागातील नागरिकांनी त्वरित सुरक्षित स्थळी स्थळांतर करावे.",
+  summaryPa: "ਅਤਿ ਜ਼ਰੂਰੀ ਬੱਦਲ ਫਟਣ ਅਤੇ ਹੜ੍ਹ ਰੈੱਡ ਅਲਰਟ: 245 ਮਿਮੀ ਤੋਂ ਵੱਧ ਭਾਰੀ ਬਾਰਿਸ਼ ਅਤੇ 85 ਕਿਮੀ/ਘੰਟਾ ਦੀ ਰਫ਼ਤਾਰ ਨਾਲ ਤੂਫ਼ਾਨ ਦਾ ਖ਼ਤਰਾ। ਹੇਠਲੇ ਇਲਾਕਿਆਂ ਦੇ ਲੋਕ ਤੁਰੰਤ ਸੁਰੱਖਿਅਤ ਥਾਵਾਂ 'ਤੇ ਪਹੁੰਚਣ।",
+  suggestedActions: [
+    { icon: "🚨", action: "Stay indoors and move to higher ground if you live in low-lying areas." },
+    { icon: "🛑", action: "Avoid driving through flooded roads. Turn around, don't drown." },
+    { icon: "⚡", action: "Keep your phone charged and follow local government alerts." },
+    { icon: "📻", action: "Keep emergency kit ready: documents, medicines, food, water." }
+  ],
+  affectedGroups: ["🌊 Coastal residents", "🏘️ Low-lying settlements", "🚌 Commuters"]
 };

@@ -11,15 +11,19 @@ import {
   ShieldCheck,
   Zap,
   Menu,
-  X
+  X,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { useForecastStore } from '../../store/useForecastStore';
 import { useLanguage } from '../../context/LanguageContext';
+import { useTheme } from '../../context/ThemeContext';
 import { LanguageSwitcher } from '../ui/LanguageSwitcher';
 
 export const Navbar = () => {
-  const { pipelineState, viewMode, setViewMode } = useForecastStore();
+  const { pipelineState, isBackendConnected, viewMode, setViewMode } = useForecastStore();
   const { t } = useLanguage();
+  const { theme, isDark, toggleTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const navItems = [
@@ -33,24 +37,24 @@ export const Navbar = () => {
   ];
 
   const getLinkClass = ({ isActive }) =>
-    `flex items-center space-x-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
+    `flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 ${
       isActive
-        ? 'bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 shadow-[0_0_12px_rgba(0,229,255,0.2)]'
-        : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+        ? 'bg-cyan-100/80 dark:bg-cyan-500/15 text-cyan-800 dark:text-cyan-300 border border-cyan-500/40 shadow-[0_0_12px_rgba(0,229,255,0.15)]'
+        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
     }`;
 
   const getMobileLinkClass = ({ isActive }) =>
     `flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
       isActive
-        ? 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/30'
-        : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+        ? 'bg-cyan-100/80 dark:bg-cyan-500/15 text-cyan-800 dark:text-cyan-300 border border-cyan-500/40'
+        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
     }`;
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-cyan-500/20 bg-[#070b13]/90 backdrop-blur-md">
+      <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 dark:border-white/10 bg-white/90 dark:bg-[#070b13]/85 backdrop-blur-xl transition-colors duration-300">
         {/* Top Banner Ticker */}
-        <div className="flex items-center justify-between px-4 py-1 border-b border-slate-800/80 text-[11px] font-mono tracking-wider text-slate-400 bg-black/40">
+        <div className="flex items-center justify-between px-4 py-1 border-b border-slate-200/60 dark:border-white/5 text-[11px] font-mono tracking-wider text-slate-600 dark:text-slate-400 bg-slate-100/70 dark:bg-black/30 transition-colors">
           <div className="flex items-center space-x-3 overflow-hidden">
             <span className="flex items-center text-cyan-400 font-bold uppercase tracking-widest gap-1.5 shrink-0">
               <span className="relative flex h-2 w-2">
@@ -92,14 +96,14 @@ export const Navbar = () => {
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="font-orbitron font-extrabold text-xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-white">
-                  FORECAST<span className="text-cyan-400">FUSION</span>
+                <span className="font-orbitron font-extrabold text-xl tracking-wider text-slate-900 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-cyan-400 dark:via-sky-300 dark:to-white">
+                  FORECAST<span className="text-cyan-500 dark:text-cyan-400">FUSION</span>
                 </span>
-                <span className="text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 bg-cyan-950 border border-cyan-500/40 text-cyan-300 rounded">
+                <span className="text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 bg-cyan-100 dark:bg-cyan-950 border border-cyan-500/40 text-cyan-800 dark:text-cyan-300 rounded">
                   v2.6-AI
                 </span>
               </div>
-              <p className="text-[10px] text-slate-400 font-mono tracking-tight -mt-1">
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-mono tracking-tight -mt-1">
                 HYBRID AI–NWP METEOROLOGICAL BLENDING PLATFORM
               </p>
             </div>
@@ -117,7 +121,6 @@ export const Navbar = () => {
               );
             })}
           </nav>
-
           {/* Right side: Mode pill + language switcher + status + hamburger */}
           <div className="flex items-center space-x-3">
             {/* Citizen vs Pro Mode Toggle Pill */}
@@ -140,8 +143,6 @@ export const Navbar = () => {
                     ? 'bg-cyan-500 text-black font-bold shadow-[0_0_12px_rgba(0,229,255,0.5)]'
                     : 'text-slate-400 hover:text-white'
                 }`}
-                title="Advanced NWP and scientific curves"
-              >
                 <span>🔬 Pro</span>
               </button>
             </div>
@@ -149,13 +150,36 @@ export const Navbar = () => {
             {/* Language Switcher */}
             <LanguageSwitcher />
 
+            {/* Light / Dark Mode Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className="flex items-center justify-center w-8 h-8 rounded-lg border border-slate-300/80 dark:border-white/10 bg-white dark:bg-white/5 text-slate-700 dark:text-slate-300 hover:border-cyan-500/40 transition-all duration-200 shadow-sm"
+              title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              aria-label="Toggle color theme"
+            >
+              {isDark ? (
+                <Sun className="w-4 h-4 text-amber-400 transition-transform duration-300 hover:rotate-90" />
+              ) : (
+                <Moon className="w-4 h-4 text-indigo-600 transition-transform duration-300 hover:-rotate-12" />
+              )}
+            </button>
+
             {/* Status indicator */}
-            <div className="hidden sm:flex flex-col items-end text-right">
-              <span className="text-[10px] text-slate-400 uppercase tracking-wider font-mono">Ensemble State</span>
-              <span className="text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                ONLINE & ADAPTING
+            <div className="hidden sm:flex flex-col items-end text-right pl-1">
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-mono">
+                {isBackendConnected ? "Backend Engine" : "Ensemble State"}
               </span>
+              {isBackendConnected ? (
+                <span className="text-xs font-semibold text-cyan-700 dark:text-cyan-400 flex items-center gap-1.5 px-2 py-0.5 rounded-md border border-cyan-500/30 bg-cyan-50 dark:bg-cyan-950/40 sheen-badge" title="Connected to FastAPI backend with WebSocket telemetry">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 dark:bg-cyan-400 animate-ping" />
+                  FASTAPI LIVE
+                </span>
+              ) : (
+                <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5 px-2 py-0.5 rounded-md border border-emerald-500/30 bg-emerald-50 dark:bg-emerald-950/40 sheen-badge" title="Active client-side Bayesian synthesis">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-ping" />
+                  ONLINE & ADAPTING
+                </span>
+              )}
             </div>
 
             {/* Hamburger (mobile) */}
@@ -181,18 +205,27 @@ export const Navbar = () => {
 
           {/* Drawer */}
           <nav
-            className="absolute top-0 right-0 h-full w-72 bg-[#070b13] border-l border-slate-800 shadow-2xl flex flex-col"
+            className="absolute top-0 right-0 h-full w-72 bg-white dark:bg-[#070b13] border-l border-slate-200 dark:border-white/10 shadow-2xl flex flex-col text-slate-900 dark:text-slate-100 transition-colors"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Drawer header */}
-            <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800">
-              <span className="font-orbitron font-bold text-cyan-400 text-sm tracking-wider">NAVIGATION</span>
-              <button
-                onClick={() => setMobileOpen(false)}
-                className="p-1.5 rounded-lg border border-slate-700 text-slate-400 hover:text-white hover:bg-slate-800 transition"
-              >
-                <X className="w-4 h-4" />
-              </button>
+            <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-white/10">
+              <span className="font-orbitron font-bold text-cyan-600 dark:text-cyan-400 text-sm tracking-wider">NAVIGATION</span>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={toggleTheme}
+                  className="p-1.5 rounded-lg border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition"
+                  aria-label="Toggle theme"
+                >
+                  {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-indigo-600" />}
+                </button>
+                <button
+                  onClick={() => setMobileOpen(false)}
+                  className="p-1.5 rounded-lg border border-slate-300 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
             {/* Nav Links */}

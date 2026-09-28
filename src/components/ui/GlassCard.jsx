@@ -10,19 +10,19 @@ export const GlassCard = ({
   headerAction = null 
 }) => {
   const variantStyles = {
-    default: "border-slate-800/80 bg-[#0d1424]/80 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)]",
-    glow: "border-cyan-500/40 bg-[#0d1424]/90 shadow-[0_0_25px_rgba(0,229,255,0.12)]",
-    warning: "border-amber-500/40 bg-[#1e150a]/80 shadow-[0_0_20px_rgba(255,176,32,0.15)]",
-    danger: "border-rose-500/40 bg-[#240c14]/80 shadow-[0_0_20px_rgba(255,59,92,0.18)]"
+    default: "glass-panel text-slate-900 dark:text-slate-100",
+    glow: "glass-panel-glow text-slate-900 dark:text-slate-100",
+    warning: "glass-panel-warning text-amber-950 dark:text-amber-100",
+    danger: "glass-panel-danger text-rose-950 dark:text-rose-100"
   };
 
   return (
-    <div className={clsx("rounded-xl border backdrop-blur-md p-4 transition-all duration-300", variantStyles[variant], className)}>
+    <div className={clsx("rounded-2xl p-5 transition-all duration-300 relative", variantStyles[variant], className)}>
       {(title || badge || headerAction) && (
-        <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800/80">
-          <div className="flex items-center space-x-2">
+        <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-200/80 dark:border-white/10">
+          <div className="flex items-center space-x-2.5">
             {title && (
-              <h3 className="font-orbitron font-semibold text-sm tracking-wide text-slate-100 flex items-center gap-2">
+              <h3 className="font-orbitron font-semibold text-xs tracking-wider uppercase text-slate-800 dark:text-slate-200 flex items-center gap-2">
                 {title}
               </h3>
             )}

@@ -26,8 +26,27 @@ const DARK_MAP_STYLE = [
   { featureType: 'administrative.country', elementType: 'geometry.stroke', stylers: [{ color: '#00e5ff50' }] },
 ];
 
-// ── Color by confidence ───────────────────────────────────────────────────────
-const getMarkerColor = (reg) => {
+const LEAD_MODEL_COLORS = {
+  ecmwf:     '#00e676', // European Centre
+  gfs:       '#ff3b5c', // NOAA GFS
+  ncum:      '#ffb020', // IMD NCUM
+  openmeteo: '#00e5ff'  // Open-Meteo
+};
+
+const getLeadModelKey = (leadModelStr = '') => {
+  const lower = leadModelStr.toLowerCase();
+  if (lower.includes('ecmwf')) return 'ecmwf';
+  if (lower.includes('gfs')) return 'gfs';
+  if (lower.includes('ncum')) return 'ncum';
+  return 'openmeteo';
+};
+
+// ── Color dynamically by active layer (Confidence vs Lead Model) ───────────────
+const getMarkerColor = (reg, activeLayer = 'confidence') => {
+  if (activeLayer === 'weights') {
+    const key = getLeadModelKey(reg.leadModel);
+    return LEAD_MODEL_COLORS[key] || '#00e5ff';
+  }
   const conf = reg.baseConfidence;
   if (conf >= 92) return '#00e676'; // high → green
   if (conf >= 88) return '#00e5ff'; // nominal → cyan
@@ -104,9 +123,26 @@ export const IndiaMap = ({ onSelectRegion }) => {
         </button>
       </div>
 
-      {/* Help text */}
-      <div className="absolute bottom-3 left-3 z-10 bg-slate-950/85 border border-slate-800 rounded-lg px-3 py-2 text-[11px] font-mono text-slate-400 backdrop-blur-md">
-        📍 {t('click_region')}
+      {/* Dynamic Layer Legend */}
+      <div className="absolute bottom-3 left-3 z-10 bg-slate-950/90 border border-slate-800 rounded-lg px-3 py-2 text-[10px] font-mono text-slate-300 backdrop-blur-md shadow-lg">
+        <div className="text-[9px] text-slate-400 uppercase tracking-wider mb-1">
+          {activeLayer === 'weights' ? 'LAYER: LEAD NWP MODEL' : 'LAYER: BLENDED CONFIDENCE'}
+        </div>
+        {activeLayer === 'weights' ? (
+          <div className="flex items-center gap-2">
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#00e676]" /> ECMWF</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#ff3b5c]" /> GFS</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#ffb020]" /> NCUM</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#00e5ff]" /> Open-Meteo</span>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#00e676]" /> ≥92%</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#00e5ff]" /> 88-91%</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#ffb020]" /> 85-87%</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#ff3b5c]" /> &lt;85%</span>
+          </div>
+        )}
       </div>
 
       <GoogleMap
@@ -130,7 +166,7 @@ export const IndiaMap = ({ onSelectRegion }) => {
       >
         {REGIONS.map((reg) => {
           const isSelected = selectedRegionId === reg.id;
-          const color = getMarkerColor(reg);
+          const color = getMarkerColor(reg, activeLayer);
           return (
             <React.Fragment key={reg.id}>
               <Marker
@@ -142,10 +178,10 @@ export const IndiaMap = ({ onSelectRegion }) => {
                 icon={{
                   path: 'M 0,0 m -12,-12 a 12,12 0 1,0 24,0 a 12,12 0 1,0 -24,0',
                   fillColor: color,
-                  fillOpacity: isSelected ? 1 : 0.75,
+                  fillOpacity: isSelected ? 1 : 0.8,
                   strokeColor: isSelected ? '#ffffff' : color,
                   strokeWeight: isSelected ? 3 : 1.5,
-                  scale: isSelected ? 1.2 : 1,
+                  scale: isSelected ? 1.25 : 1,
                 }}
                 title={reg.name}
               />
@@ -155,7 +191,7 @@ export const IndiaMap = ({ onSelectRegion }) => {
                   onCloseClick={() => setInfoOpen(null)}
                 >
                   <div style={{ background: '#0d1424', color: '#e2e8f0', padding: '8px', minWidth: '160px', fontFamily: 'monospace', fontSize: '12px' }}>
-                    <div style={{ color: '#00e5ff', fontWeight: 'bold', marginBottom: '4px' }}>{reg.name}</div>
+                    <div style={{ color: color, fontWeight: 'bold', marginBottom: '4px' }}>{reg.name}</div>
                     <div style={{ color: '#94a3b8', fontSize: '11px' }}>{reg.terrain}</div>
                     <div style={{ marginTop: '6px', borderTop: '1px solid #334155', paddingTop: '4px', display: 'flex', justifyContent: 'space-between' }}>
                       <span style={{ color: '#64748b' }}>Confidence:</span>
@@ -163,7 +199,7 @@ export const IndiaMap = ({ onSelectRegion }) => {
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                       <span style={{ color: '#64748b' }}>Lead Model:</span>
-                      <span style={{ color: '#00e5ff' }}>{reg.leadModel}</span>
+                      <span style={{ color: color, fontWeight: 'bold' }}>{reg.leadModel}</span>
                     </div>
                   </div>
                 </InfoWindow>
@@ -183,6 +219,7 @@ const FallbackMap = ({ selectedRegionId, activeLayer, onSelectRegion, t }) => {
 
   const selectedRegion = REGIONS.find(r => r.id === selectedRegionId) || REGIONS[0];
   const activeDetail = hoveredRegion || selectedRegion;
+  const activeColor = getMarkerColor(activeDetail, activeLayer);
 
   return (
     <div className="relative w-full h-[440px] rounded-xl overflow-hidden border border-cyan-500/20 shadow-[0_0_20px_rgba(0,0,0,0.6)] bg-[#090f1d] flex flex-col justify-between">
@@ -203,9 +240,9 @@ const FallbackMap = ({ selectedRegionId, activeLayer, onSelectRegion, t }) => {
       </div>
 
       {/* Floating Active Info Card */}
-      <div className="absolute top-3 left-3 z-10 bg-slate-950/90 border border-cyan-500/30 rounded-xl p-2.5 max-w-[210px] text-xs font-mono backdrop-blur-md shadow-lg pointer-events-none">
-        <div className="text-[10px] text-cyan-400 font-bold uppercase tracking-wider flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping inline-block" />
+      <div className="absolute top-3 left-3 z-10 bg-slate-950/90 border border-cyan-500/30 rounded-xl p-2.5 max-w-[215px] text-xs font-mono backdrop-blur-md shadow-lg pointer-events-none">
+        <div className="text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5" style={{ color: activeColor }}>
+          <span className="w-2 h-2 rounded-full animate-ping inline-block" style={{ backgroundColor: activeColor }} />
           {activeDetail.name}
         </div>
         <div className="text-slate-400 text-[11px] truncate mt-0.5">{activeDetail.state}</div>
@@ -215,8 +252,32 @@ const FallbackMap = ({ selectedRegionId, activeLayer, onSelectRegion, t }) => {
         </div>
         <div className="flex items-center justify-between text-[11px] mt-0.5">
           <span className="text-slate-400">Lead Model:</span>
-          <span className="text-cyan-300">{activeDetail.leadModel.split('-')[0]}</span>
+          <span className="font-bold" style={{ color: getMarkerColor(activeDetail, 'weights') }}>
+            {activeDetail.leadModel.split('-')[0]}
+          </span>
         </div>
+      </div>
+
+      {/* Dynamic Layer Legend */}
+      <div className="absolute bottom-12 left-3 z-10 bg-slate-950/90 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-[10px] font-mono text-slate-300 backdrop-blur-md shadow-lg">
+        <div className="text-[9px] text-slate-400 uppercase tracking-wider mb-1">
+          {activeLayer === 'weights' ? 'ACTIVE: LEAD MODEL' : 'ACTIVE: CONFIDENCE'}
+        </div>
+        {activeLayer === 'weights' ? (
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[9px]">
+            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#00e676]" /> ECMWF</span>
+            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#ff3b5c]" /> GFS</span>
+            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#ffb020]" /> NCUM</span>
+            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#00e5ff]" /> Open-Meteo</span>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2 text-[9px]">
+            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#00e676]" /> ≥92%</span>
+            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#00e5ff]" /> 88-91%</span>
+            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#ffb020]" /> 85-87%</span>
+            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#ff3b5c]" /> &lt;85%</span>
+          </div>
+        )}
       </div>
 
       {/* Interactive SVG Radar & Coordinate Grid */}
@@ -243,7 +304,7 @@ const FallbackMap = ({ selectedRegionId, activeLayer, onSelectRegion, t }) => {
           const x = ((reg.lng - 66) / (96 - 66)) * 320 + 40;
           const y = 370 - ((reg.lat - 7) / (35 - 7)) * 330;
           const isSelected = selectedRegionId === reg.id;
-          const color = getMarkerColor(reg);
+          const color = getMarkerColor(reg, activeLayer);
 
           return (
             <g

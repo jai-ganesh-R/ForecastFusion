@@ -3,8 +3,8 @@ import { REGIONS } from '../data/mockRegions';
 import { generateRegionForecasts } from '../data/mockForecasts';
 import { getRegionWeightsData } from '../data/mockWeights';
 import { getRegionSignals, getRegionSkillMetrics } from '../data/mockSignals';
-import { getRegionAdvisories } from '../data/mockAdvisories';
-import { fetchLiveRegionForecast, blendModelDays } from '../services/weatherService';
+import { getRegionAdvisories, STRESS_TEST_CLOUDBURST_ADVISORY } from '../data/mockAdvisories';
+import { fetchLiveRegionForecast, blendModelDays, pingMicroservices } from '../services/weatherService';
 
 const INITIAL_LATENCIES = {
   ecmwf:    42,
@@ -28,11 +28,22 @@ export const useForecastStore = create((set, get) => ({
   liveFetchError: null,
   lastFetchedAt: null,
 
-  // Live microservice latencies (animate per tick)
+  // Live microservice latencies
   liveLatencies: { ...INITIAL_LATENCIES },
+  diagnosticPings: null,
+  isPinging: false,
+  lastPingTimestamp: null,
 
   // What-If interactive weight overrides (null = off)
   whatIfWeights: null,
+
+  // Synthetic Extreme Cloudburst / Storm Stress-Test Mode
+  isStormStressTestActive: false,
+  toggleStormStressTest: () => set(state => ({ isStormStressTestActive: !state.isStormStressTestActive })),
+
+  // Backend API & WebSocket connection
+  isBackendConnected: false,
+  backendWs: null,
 
   // Pipeline automation metrics
   pipelineState: {
@@ -109,8 +120,92 @@ export const useForecastStore = create((set, get) => ({
   setWhatIfWeights: (weights) => set({ whatIfWeights: weights }),
   clearWhatIfWeights: () => set({ whatIfWeights: null }),
 
-  // Heartbeat action called every second
+  // Run real live network diagnostic ping to microservices
+  runDiagnostics: async () => {
+    set({ isPinging: true });
+    try {
+      const pings = await pingMicroservices();
+      const currentLatencies = get().liveLatencies;
+      set({
+        isPinging: false,
+        diagnosticPings: pings,
+        lastPingTimestamp: new Date().toLocaleTimeString(),
+        liveLatencies: {
+          ...currentLatencies,
+          ecmwf: pings.ecmwf.latencyMs,
+          gfs: pings.gfs.latencyMs,
+          imdDwr: pings.imdDwr.latencyMs,
+          openMeteo: pings.openMeteo.latencyMs,
+        }
+      });
+    } catch (err) {
+      console.error("Diagnostic probe failed:", err);
+      set({ isPinging: false });
+    }
+  },
+
+  // Connect to FastAPI WebSocket telemetry feed
+  initTelemetryWs: () => {
+    if (get().backendWs) return;
+
+    try {
+      const wsUrl = "ws://localhost:8000/ws/v1/telemetry";
+      const socket = new WebSocket(wsUrl);
+
+      socket.onopen = () => {
+        set({ isBackendConnected: true, backendWs: socket });
+      };
+
+      socket.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          if (data.type === "PIPELINE_TICK") {
+            const current = get().pipelineState;
+            set({
+              isBackendConnected: true,
+              liveLatencies: data.liveLatencies || get().liveLatencies,
+              pipelineState: {
+                ...current,
+                pipelineStatus: data.pipelineStatus,
+                nextRunSecondsRemaining: data.nextRunSecondsRemaining,
+                lastRunSecondsAgo: data.lastRunSecondsAgo,
+                totalCyclesCompleted: data.totalCyclesCompleted,
+                recordsIngested: data.recordsIngested
+              }
+            });
+          }
+        } catch {
+          // ignore parsing error
+        }
+      };
+
+      socket.onclose = () => {
+        set({ isBackendConnected: false, backendWs: null });
+        setTimeout(() => {
+          if (!get().backendWs) {
+            get().initTelemetryWs();
+          }
+        }, 6000);
+      };
+
+      socket.onerror = () => {
+        socket.close();
+      };
+    } catch {
+      set({ isBackendConnected: false, backendWs: null });
+    }
+  },
+
+  // Heartbeat action called every second (fallback or supplemental)
   tickPipeline: () => {
+    if (get().isBackendConnected) {
+      // Periodic background forecast refresh if in live mode
+      if (get().pipelineState.nextRunSecondsRemaining === 30 && get().isLiveMode && !get().isFetchingLive) {
+        get().fetchLiveForecast(get().selectedRegionId);
+      }
+      return;
+    }
+
     const { pipelineState, liveLatencies } = get();
     let nextRemain = pipelineState.nextRunSecondsRemaining - 1;
     let lastAgo = pipelineState.lastRunSecondsAgo + 1;
@@ -177,21 +272,54 @@ export const useForecastStore = create((set, get) => ({
   },
 
   getCurrentForecasts: () => {
-    const { selectedRegionId, isLiveMode, liveForecastData } = get();
+    const { selectedRegionId, isLiveMode, liveForecastData, isStormStressTestActive } = get();
     const activeWeights = get().getCurrentWeights();
 
+    let baseDays;
     // Check if live data is available
     if (isLiveMode && liveForecastData[selectedRegionId]?.rawDays) {
-      return blendModelDays(liveForecastData[selectedRegionId].rawDays, activeWeights);
+      baseDays = blendModelDays(liveForecastData[selectedRegionId].rawDays, activeWeights);
+    } else {
+      // Trigger live fetch in background if not already started
+      if (isLiveMode && !liveForecastData[selectedRegionId] && !get().isFetchingLive) {
+        get().fetchLiveForecast(selectedRegionId);
+      }
+      baseDays = generateRegionForecasts(selectedRegionId, activeWeights);
     }
 
-    // Trigger live fetch in background if not already started
-    if (isLiveMode && !liveForecastData[selectedRegionId] && !get().isFetchingLive) {
-      get().fetchLiveForecast(selectedRegionId);
+    if (isStormStressTestActive && baseDays && baseDays.length > 0) {
+      return baseDays.map((d, idx) => {
+        if (idx === 0) {
+          return {
+            ...d,
+            rainBlended: 248.5,
+            rainEcmwf: 230.0,
+            rainGfs: 265.0,
+            rainImdDwr: 250.0,
+            rainSpread: 35.0,
+            rainConfidence: 94,
+            imdAlertLevel: 'RED_ALERT',
+            imdWarning: 'Extremely Heavy Rainfall (Cloudburst / Flash Flood Risk >204.4mm)',
+            windSpeed: 88,
+            windBlended: 88,
+            tempBlended: 24.2,
+            condition: 'Violent Cloudburst & Squall'
+          };
+        }
+        if (idx === 1) {
+          return {
+            ...d,
+            rainBlended: 142.0,
+            imdAlertLevel: 'ORANGE_ALERT',
+            imdWarning: 'Very Heavy Rainfall (Inundation Watch)',
+            windSpeed: 62
+          };
+        }
+        return d;
+      });
     }
 
-    // Return realistic fallback baseline while waiting
-    return generateRegionForecasts(selectedRegionId, activeWeights);
+    return baseDays;
   },
 
   getCurrentWeightsData: () => {
@@ -217,7 +345,13 @@ export const useForecastStore = create((set, get) => ({
   },
 
   getCurrentAdvisory: () => {
-    const { selectedRegionId } = get();
+    const { selectedRegionId, isStormStressTestActive } = get();
+    if (isStormStressTestActive) {
+      return {
+        ...STRESS_TEST_CLOUDBURST_ADVISORY,
+        regionId: selectedRegionId
+      };
+    }
     return getRegionAdvisories(selectedRegionId);
   }
 }));

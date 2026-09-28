@@ -12,9 +12,9 @@ const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     const d = payload[0];
     return (
-      <div className="bg-[#0d1424] border border-slate-700 rounded-lg p-2.5 text-xs font-mono shadow-lg">
-        <div className="font-bold text-white mb-1">{d.name}</div>
-        <div className="text-cyan-400 font-bold">{d.value}% weight</div>
+      <div className="bg-white/95 dark:bg-[#0d1424]/95 backdrop-blur-xl border border-slate-300 dark:border-white/10 rounded-xl p-3 text-xs font-mono shadow-2xl">
+        <div className="font-bold text-slate-800 dark:text-slate-100 mb-1">{d.name}</div>
+        <div className="text-cyan-700 dark:text-cyan-400 font-bold">{d.value}% weight</div>
       </div>
     );
   }

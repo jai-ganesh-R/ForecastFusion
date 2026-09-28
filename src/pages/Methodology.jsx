@@ -106,25 +106,25 @@ export const Methodology = () => {
   };
 
   const COLOR_MAP = {
-    cyan:   'border-cyan-500/40 bg-cyan-950/20 text-cyan-400',
-    violet: 'border-violet-500/40 bg-violet-950/20 text-violet-400',
-    emerald:'border-emerald-500/40 bg-emerald-950/20 text-emerald-400',
-    amber:  'border-amber-500/40 bg-amber-950/20 text-amber-400',
-    rose:   'border-rose-500/40 bg-rose-950/20 text-rose-400',
-    sky:    'border-sky-500/40 bg-sky-950/20 text-sky-400',
+    cyan:   'border-cyan-300 dark:border-cyan-500/40 bg-cyan-50/70 dark:bg-cyan-950/20 text-cyan-700 dark:text-cyan-400',
+    violet: 'border-violet-300 dark:border-violet-500/40 bg-violet-50/70 dark:bg-violet-950/20 text-violet-700 dark:text-violet-400',
+    emerald:'border-emerald-300 dark:border-emerald-500/40 bg-emerald-50/70 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400',
+    amber:  'border-amber-300 dark:border-amber-500/40 bg-amber-50/70 dark:bg-amber-950/20 text-amber-700 dark:text-amber-400',
+    rose:   'border-rose-300 dark:border-rose-500/40 bg-rose-50/70 dark:bg-rose-950/20 text-rose-700 dark:text-rose-400',
+    sky:    'border-sky-300 dark:border-sky-500/40 bg-sky-50/70 dark:bg-sky-950/20 text-sky-700 dark:text-sky-400',
   };
 
   return (
     <div className="p-6 max-w-5xl mx-auto space-y-6">
       {/* Header */}
-      <div className="p-5 rounded-xl bg-[#0d1424]/90 border border-slate-800 backdrop-blur-md">
+      <div className="p-5 rounded-2xl bg-white/70 dark:bg-[#0d1424]/90 border border-slate-200/80 dark:border-slate-800 backdrop-blur-xl shadow-sm dark:shadow-none">
         <div className="flex items-center space-x-2 mb-1">
-          <span className="p-1.5 rounded-lg bg-cyan-950 border border-cyan-500/30 text-cyan-400">
+          <span className="p-1.5 rounded-lg bg-cyan-100 dark:bg-cyan-950 border border-cyan-300 dark:border-cyan-500/30 text-cyan-700 dark:text-cyan-400">
             <HelpCircle className="w-5 h-5" />
           </span>
-          <h2 className="font-orbitron font-bold text-2xl text-white">{t('meth_title')}</h2>
+          <h2 className="font-orbitron font-bold text-2xl text-slate-900 dark:text-white">{t('meth_title')}</h2>
         </div>
-        <p className="text-sm text-slate-400 mt-1 max-w-3xl font-sans leading-relaxed">
+        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 max-w-3xl font-sans leading-relaxed">
           {t('meth_subtitle')}
         </p>
       </div>
@@ -137,10 +137,10 @@ export const Methodology = () => {
           return (
             <div
               key={idx}
-              className={`rounded-xl border transition-all ${isOpen ? colorClass : 'border-slate-800 bg-slate-900/40'}`}
+              className={`rounded-2xl border transition-all ${isOpen ? colorClass : 'border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/40 shadow-sm'}`}
             >
               <button
-                className="w-full flex items-center gap-4 p-4 text-left"
+                className="w-full flex items-center gap-4 p-4 text-left cursor-pointer"
                 onClick={() => setOpenStep(isOpen ? null : idx)}
               >
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 text-xl font-orbitron font-bold border ${colorClass}`}>
@@ -148,25 +148,25 @@ export const Methodology = () => {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono text-slate-500 uppercase">Step {step.num}</span>
+                    <span className="text-[10px] font-mono text-slate-500 uppercase font-bold">Step {step.num}</span>
                   </div>
-                  <div className="text-sm font-semibold text-white leading-snug">{getTitle(step)}</div>
+                  <div className="text-sm font-semibold text-slate-900 dark:text-white leading-snug">{getTitle(step)}</div>
                 </div>
-                {isOpen ? <ChevronUp className="w-4 h-4 text-slate-400 shrink-0" /> : <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />}
+                {isOpen ? <ChevronUp className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" /> : <ChevronDown className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />}
               </button>
 
               {isOpen && (
                 <div className="px-4 pb-4 space-y-3">
-                  <p className="text-sm text-slate-200 font-sans leading-relaxed">{step.descEn}</p>
+                  <p className="text-sm text-slate-700 dark:text-slate-200 font-sans leading-relaxed">{step.descEn}</p>
                   {step.analogy && (
-                    <div className="p-3 bg-black/40 rounded-lg border border-slate-800 text-xs text-slate-300 font-sans italic">
+                    <div className="p-3 bg-slate-100/80 dark:bg-black/40 rounded-xl border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 font-sans italic">
                       {step.analogy}
                     </div>
                   )}
                   {step.models && (
                     <div className="flex flex-wrap gap-2">
                       {step.models.map((m, i) => (
-                        <span key={i} className="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs text-slate-300">{m}</span>
+                        <span key={i} className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300 font-medium">{m}</span>
                       ))}
                     </div>
                   )}
@@ -182,22 +182,22 @@ export const Methodology = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-xs font-mono text-left">
             <thead>
-              <tr className="border-b border-slate-800 text-slate-400 text-[10px]">
+              <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-[10px] uppercase">
                 <th className="pb-2 pr-4">Hazard Type</th>
-                <th className="pb-2 pr-4 text-emerald-400">✅ Normal</th>
-                <th className="pb-2 pr-4 text-amber-400">🟡 Moderate</th>
-                <th className="pb-2 pr-4 text-orange-400">🟠 Severe</th>
-                <th className="pb-2 text-rose-400">🔴 Extreme</th>
+                <th className="pb-2 pr-4 text-emerald-600 dark:text-emerald-400">✅ Normal</th>
+                <th className="pb-2 pr-4 text-amber-600 dark:text-amber-400">🟡 Moderate</th>
+                <th className="pb-2 pr-4 text-orange-600 dark:text-orange-400">🟠 Severe</th>
+                <th className="pb-2 text-rose-600 dark:text-rose-400">🔴 Extreme</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800/60">
               {HAZARD_TABLE.map((row, i) => (
-                <tr key={i} className="hover:bg-slate-800/30 transition-colors">
-                  <td className="py-2 pr-4 text-slate-300 font-semibold">{row.hazard}</td>
-                  <td className="py-2 pr-4 text-emerald-400">{row.mild}</td>
-                  <td className="py-2 pr-4 text-amber-400">{row.moderate}</td>
-                  <td className="py-2 pr-4 text-orange-400">{row.severe}</td>
-                  <td className="py-2 text-rose-400">{row.extreme}</td>
+                <tr key={i} className="hover:bg-slate-100/60 dark:hover:bg-slate-800/30 transition-colors">
+                  <td className="py-2.5 pr-4 text-slate-800 dark:text-slate-300 font-semibold">{row.hazard}</td>
+                  <td className="py-2.5 pr-4 text-emerald-600 dark:text-emerald-400 font-medium">{row.mild}</td>
+                  <td className="py-2.5 pr-4 text-amber-600 dark:text-amber-400 font-medium">{row.moderate}</td>
+                  <td className="py-2.5 pr-4 text-orange-600 dark:text-orange-400 font-medium">{row.severe}</td>
+                  <td className="py-2.5 text-rose-600 dark:text-rose-400 font-bold">{row.extreme}</td>
                 </tr>
               ))}
             </tbody>
@@ -206,8 +206,8 @@ export const Methodology = () => {
       </GlassCard>
 
       {/* SIH footer */}
-      <div className="p-4 bg-gradient-to-r from-cyan-950/50 via-slate-900 to-blue-950/50 border border-cyan-500/30 rounded-xl text-center text-xs text-slate-400 font-mono">
-        Built for <span className="text-cyan-400 font-bold">Smart India Hackathon (SIH26081)</span> — Ministry of Earth Sciences (MoES) &nbsp;|&nbsp; ForecastFusion © 2026
+      <div className="p-4 bg-slate-100/80 dark:bg-gradient-to-r dark:from-cyan-950/50 dark:via-slate-900 dark:to-blue-950/50 border border-slate-200 dark:border-cyan-500/30 rounded-2xl text-center text-xs text-slate-600 dark:text-slate-400 font-mono shadow-sm">
+        Built for <span className="text-cyan-700 dark:text-cyan-400 font-bold">Smart India Hackathon (SIH26081)</span> — Ministry of Earth Sciences (MoES) &nbsp;|&nbsp; ForecastFusion © 2026
       </div>
     </div>
   );

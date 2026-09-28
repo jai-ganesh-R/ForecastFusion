@@ -46,7 +46,7 @@ export const ExplainEngine = () => {
       setWhatIfMode(false);
       clearWhatIfWeights();
     }
-  }, [selectedRegionId, realWeights, clearWhatIfWeights]);
+  }, [selectedRegionId]);
 
   // Smooth proportional balance so the dragged slider moves freely to exact value
   // and the remaining sliders smoothly distribute the remainder (sum always = 100%)
@@ -100,25 +100,25 @@ export const ExplainEngine = () => {
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 rounded-xl bg-[#0d1424]/90 border border-slate-800 backdrop-blur-md">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 rounded-2xl bg-white/70 dark:bg-[#0d1424]/90 border border-slate-200/80 dark:border-slate-800 backdrop-blur-xl shadow-sm dark:shadow-none">
         <div>
           <div className="flex items-center space-x-2 mb-1">
-            <span className="p-1.5 rounded-lg bg-cyan-950 border border-cyan-500/30 text-cyan-400">
+            <span className="p-1.5 rounded-lg bg-cyan-100 dark:bg-cyan-950 border border-cyan-300 dark:border-cyan-500/30 text-cyan-700 dark:text-cyan-400">
               <BrainCircuit className="w-5 h-5" />
             </span>
-            <h2 className="font-orbitron font-bold text-2xl text-white">{t('explain_title')}</h2>
+            <h2 className="font-orbitron font-bold text-2xl text-slate-900 dark:text-white">{t('explain_title')}</h2>
           </div>
-          <p className="text-xs text-slate-400 max-w-2xl font-sans leading-relaxed">{t('explain_subtitle')}</p>
+          <p className="text-xs text-slate-600 dark:text-slate-400 max-w-2xl font-sans leading-relaxed">{t('explain_subtitle')}</p>
         </div>
         <div className="flex items-center gap-2">
-          <label className="text-xs font-mono text-slate-400">ZONE:</label>
+          <label className="text-xs font-mono text-slate-600 dark:text-slate-400">ZONE:</label>
           <select
             value={selectedRegionId}
             onChange={e => setSelectedRegion(e.target.value)}
-            className="bg-slate-900 border border-cyan-500/40 text-cyan-300 text-xs rounded-lg px-3 py-2 font-mono focus:outline-none"
+            className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-cyan-500/40 text-cyan-700 dark:text-cyan-300 text-xs rounded-xl px-3 py-2 font-mono focus:outline-none shadow-sm cursor-pointer"
           >
             {REGIONS.map(r => (
-              <option key={r.id} value={r.id}>{r.name} — {r.baseConfidence}% confidence</option>
+              <option key={r.id} value={r.id} className="bg-slate-900 text-white">{r.name} — {r.baseConfidence}% confidence</option>
             ))}
           </select>
         </div>
@@ -127,28 +127,28 @@ export const ExplainEngine = () => {
       {/* Region context card */}
       <GlassCard variant="glow" title={`📍 Why does ${currentRegion.name} use these weights?`}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-          <div className="p-3 bg-black/40 border border-slate-800 rounded-lg">
-            <div className="text-[10px] font-mono text-slate-400 uppercase mb-1">Terrain Type</div>
-            <div className="font-semibold text-slate-200">{currentRegion.terrain}</div>
-            <p className="text-slate-400 text-[11px] mt-1 font-sans">Different terrains suit different models. Hilly regions penalize global models that miss local effects.</p>
+          <div className="p-3.5 bg-slate-100/70 dark:bg-black/40 border border-slate-200/80 dark:border-slate-800 rounded-xl">
+            <div className="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase mb-1">Terrain Type</div>
+            <div className="font-semibold text-slate-900 dark:text-slate-200">{currentRegion.terrain}</div>
+            <p className="text-slate-600 dark:text-slate-400 text-[11px] mt-1 font-sans">Different terrains suit different models. Hilly regions penalize global models that miss local effects.</p>
           </div>
-          <div className="p-3 bg-black/40 border border-slate-800 rounded-lg">
-            <div className="text-[10px] font-mono text-slate-400 uppercase mb-1">Top Trusted Model Right Now</div>
-            <div className="font-semibold text-emerald-400 text-sm">{currentRegion.leadModel}</div>
-            <p className="text-slate-400 text-[11px] mt-1 font-sans">Chosen because it had the lowest error in this region over the past 15 days.</p>
+          <div className="p-3.5 bg-slate-100/70 dark:bg-black/40 border border-slate-200/80 dark:border-slate-800 rounded-xl">
+            <div className="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase mb-1">Top Trusted Model Right Now</div>
+            <div className="font-semibold text-emerald-600 dark:text-emerald-400 text-sm">{currentRegion.leadModel}</div>
+            <p className="text-slate-600 dark:text-slate-400 text-[11px] mt-1 font-sans">Chosen because it had the lowest error in this region over the past 15 days.</p>
           </div>
-          <div className="p-3 bg-black/40 border border-slate-800 rounded-lg">
-            <div className="text-[10px] font-mono text-slate-400 uppercase mb-1">Current Monsoon Phase</div>
-            <div className="font-semibold text-cyan-400">{currentRegion.monsoonPhase}</div>
-            <p className="text-slate-400 text-[11px] mt-1 font-sans">Weights adapt to the season. Monsoon-optimized models get priority during active monsoon phases.</p>
+          <div className="p-3.5 bg-slate-100/70 dark:bg-black/40 border border-slate-200/80 dark:border-slate-800 rounded-xl">
+            <div className="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase mb-1">Current Monsoon Phase</div>
+            <div className="font-semibold text-cyan-700 dark:text-cyan-400">{currentRegion.monsoonPhase}</div>
+            <p className="text-slate-600 dark:text-slate-400 text-[11px] mt-1 font-sans">Weights adapt to the season. Monsoon-optimized models get priority during active monsoon phases.</p>
           </div>
         </div>
       </GlassCard>
 
       {/* Attribution cards — one per model, region-specific data */}
       <div>
-        <h3 className="font-orbitron font-bold text-sm text-white mb-3 flex items-center gap-2">
-          <Info className="w-4 h-4 text-cyan-400" />
+        <h3 className="font-orbitron font-bold text-sm text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+          <Info className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
           {t('trust_score')} — {t('why_this_score')}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -171,7 +171,7 @@ export const ExplainEngine = () => {
         title={t('what_if_title')}
         badge={
           <span className={`text-[10px] font-mono px-2 py-0.5 rounded border flex items-center gap-1.5 ${
-            whatIfMode ? 'bg-amber-950/80 border-amber-500/40 text-amber-300' : 'bg-slate-800/80 border-slate-700 text-slate-400'
+            whatIfMode ? 'bg-amber-100 dark:bg-amber-950/80 border-amber-300 dark:border-amber-500/40 text-amber-800 dark:text-amber-300' : 'bg-slate-100 dark:bg-slate-800/80 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400'
           }`}>
             <SlidersHorizontal className="w-3 h-3" />
             {whatIfMode ? '⚡ CUSTOM WEIGHTS ACTIVE' : 'INTERACTIVE SIMULATOR'}
@@ -179,12 +179,12 @@ export const ExplainEngine = () => {
         }
         headerAction={
           <div className="flex items-center gap-2">
-            <button onClick={resetSliders} className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 rounded-lg transition">
+            <button onClick={resetSliders} className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl transition shadow-sm">
               <RotateCcw className="w-3.5 h-3.5" /> Reset
             </button>
             <button
               onClick={toggleWhatIf}
-              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg transition ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl transition shadow ${
                 whatIfMode ? 'bg-amber-500 text-black hover:bg-amber-400' : 'bg-gradient-to-r from-cyan-500 to-blue-600 text-black shadow-[0_0_12px_rgba(0,229,255,0.3)]'
               }`}
             >
@@ -194,7 +194,7 @@ export const ExplainEngine = () => {
           </div>
         }
       >
-        <p className="text-xs text-slate-400 mb-5 font-sans leading-relaxed">{t('what_if_desc')}</p>
+        <p className="text-xs text-slate-600 dark:text-slate-400 mb-5 font-sans leading-relaxed">{t('what_if_desc')}</p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-5">
@@ -211,43 +211,42 @@ export const ExplainEngine = () => {
                     </div>
                     <div className="flex items-center gap-2 text-xs font-mono">
                       {diff !== 0 && (
-                        <span className={`text-[10px] px-1.5 py-0.5 rounded ${diff > 0 ? 'text-emerald-400 bg-emerald-950/60' : 'text-rose-400 bg-rose-950/60'}`}>
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${diff > 0 ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/60' : 'text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-950/60'}`}>
                           {diff > 0 ? `+${diff}%` : `${diff}%`}
                         </span>
                       )}
-                      <span className="text-white font-bold">{val}%</span>
+                      <span className="text-slate-900 dark:text-white font-bold">{val}%</span>
                     </div>
                   </div>
                   <input
                     type="range" min={0} max={100} step={1}
                     value={sliders[key] ?? 0}
                     onChange={e => handleSlider(key, e.target.value)}
-                    className="w-full h-2 rounded-full appearance-none cursor-pointer"
-                    style={{ background: `linear-gradient(to right, ${meta.color} 0%, ${meta.color} ${val}%, #1e293b ${val}%, #1e293b 100%)` }}
+                    className="w-full h-2 rounded-full appearance-none cursor-pointer accent-cyan-500 bg-slate-200 dark:bg-slate-800"
                   />
-                  <div className="flex justify-between text-[10px] font-mono text-slate-500 mt-1">
+                  <div className="flex justify-between text-[10px] font-mono text-slate-500 dark:text-slate-400 mt-1">
                     <span>0%</span>
-                    <span className="text-slate-600">Actual: {realVal}%</span>
+                    <span className="text-slate-500 dark:text-slate-400">Actual: {realVal}%</span>
                     <span>100%</span>
                   </div>
                 </div>
               );
             })}
-            <div className="p-3 bg-black/30 rounded-lg border border-slate-800 flex items-center justify-between font-mono text-xs">
-              <span className="text-slate-400">Total must equal 100%:</span>
-              <span className="text-emerald-400 font-bold">100% ✓ (auto-normalized)</span>
+            <div className="p-3 bg-slate-100/80 dark:bg-black/30 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between font-mono text-xs">
+              <span className="text-slate-600 dark:text-slate-400">Total must equal 100%:</span>
+              <span className="text-emerald-600 dark:text-emerald-400 font-bold">100% ✓ (auto-normalized)</span>
             </div>
           </div>
 
           <div className="flex flex-col items-center justify-center">
-            <div className="text-[11px] font-mono text-slate-400 text-center mb-2">
+            <div className="text-[11px] font-mono text-slate-600 dark:text-slate-400 text-center mb-2">
               {whatIfMode ? '⚡ Your Custom Weights (Live on Dashboard)' : '👁️ Preview — how your weights look'}
             </div>
             <div className="w-full max-w-xs">
               <ModelWeightPie weights={normed} />
             </div>
             {whatIfMode && (
-              <div className="mt-2 text-[10px] font-mono text-amber-400 text-center animate-pulse">
+              <div className="mt-2 text-[10px] font-mono text-amber-600 dark:text-amber-400 text-center font-bold animate-pulse">
                 ⚡ Custom weights applied to Dashboard & Forecast
               </div>
             )}

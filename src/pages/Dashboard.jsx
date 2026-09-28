@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, SlidersHorizontal, RefreshCw, Globe, Sparkles } from 'lucide-react';
+import { MapPin, SlidersHorizontal, RefreshCw, Globe, Sparkles, AlertTriangle } from 'lucide-react';
 import { useForecastStore } from '../store/useForecastStore';
 import { CitizenDashboard } from '../components/citizen/CitizenDashboard';
 import { IndiaMap } from '../components/map/IndiaMap';
@@ -21,7 +21,8 @@ export const Dashboard = () => {
     whatIfWeights, clearWhatIfWeights,
     isLiveMode, toggleLiveMode, fetchLiveForecast,
     isFetchingLive, lastFetchedAt, liveLatencies,
-    viewMode, setViewMode
+    viewMode, setViewMode,
+    isStormStressTestActive, toggleStormStressTest
   } = useForecastStore();
   const { t } = useLanguage();
 
@@ -61,6 +62,31 @@ export const Dashboard = () => {
           <span>🌱 Switch to Simple Citizen Mode</span>
         </button>
       </div>
+
+      {/* Synthetic Cloudburst Stress-Test Banner */}
+      {isStormStressTestActive && (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-rose-950/70 border-2 border-rose-500 text-rose-100 text-xs font-mono backdrop-blur-md shadow-[0_0_25px_rgba(244,63,94,0.35)] animate-pulse">
+          <div className="flex items-center gap-3">
+            <span className="p-1.5 rounded-lg bg-rose-500/30 text-rose-300 font-bold text-lg">🚨</span>
+            <div>
+              <div className="font-bold text-sm tracking-wide text-rose-200">
+                SYNTHETIC CLOUDBURST STRESS-TEST ACTIVE ({currentRegion.name.toUpperCase()})
+              </div>
+              <div className="text-rose-300/90 text-[11px] mt-0.5">
+                Simulating extreme 248.5 mm deluge &gt; 204.4 mm IMD Red Alert threshold with 88 km/h squalls. Multi-model Bayesian spread widening active.
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={toggleStormStressTest}
+              className="px-3 py-1.5 rounded-lg bg-rose-500 hover:bg-rose-400 text-white font-bold transition text-xs shadow-md"
+            >
+              Exit Stress Test
+            </button>
+          </div>
+        </div>
+      )}
       {/* What-If Active Banner */}
       {whatIfWeights && (
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-xl bg-amber-950/40 border border-amber-500/50 text-amber-200 text-xs font-mono backdrop-blur-md shadow-[0_0_15px_rgba(245,158,11,0.15)] animate-fadeIn">
@@ -81,85 +107,129 @@ export const Dashboard = () => {
         </div>
       )}
 
-      {/* Region banner */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-4 rounded-xl bg-[#0d1424]/90 border border-slate-800 backdrop-blur-md">
-        <div>
-          <div className="flex items-center space-x-2">
-            <span className="p-1.5 rounded-lg bg-cyan-950 border border-cyan-500/30 text-cyan-400">
-              <MapPin className="w-4 h-4" />
-            </span>
-            <h2 className="font-orbitron font-bold text-xl text-white">{currentRegion.name}</h2>
-            <span className="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">{currentRegion.state}</span>
-          </div>
-          <p className="text-xs text-slate-400 mt-1 font-mono">
-            TERRAIN: {currentRegion.terrain} &nbsp;|&nbsp; MONSOON: {currentRegion.monsoonPhase}
-          </p>
-        </div>
+      {/* Hero Metric & Regional Forecast Spotlight */}
+      <div className="glass-panel rounded-2xl p-6 relative overflow-hidden">
+        {/* Ambient Glow */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
 
-        <div className="flex items-center gap-3">
-          <label className="text-xs font-mono text-slate-400 uppercase">{t('forecast_zone')}:</label>
-          <select
-            value={selectedRegionId}
-            onChange={e => setSelectedRegion(e.target.value)}
-            className="bg-slate-900 border border-cyan-500/40 text-cyan-300 text-xs rounded-lg px-3 py-2 font-mono focus:outline-none focus:ring-1 focus:ring-cyan-500"
-          >
-            {REGIONS.map(r => (
-              <option key={r.id} value={r.id}>{r.name} ({r.baseConfidence}% {t('confidence')})</option>
-            ))}
-          </select>
-        </div>
-      </div>
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-200/80 dark:border-white/10">
+          {/* Left: Oversized Hero Temperature & Primary Condition */}
+          <div className="flex flex-col sm:flex-row sm:items-baseline gap-4 sm:gap-8">
+            <div className="flex items-baseline">
+              <span className="font-orbitron font-medium text-6xl sm:text-7xl tracking-tighter text-slate-900 dark:text-slate-100">
+                {forecasts[0]?.blendedTemp || 28.5}°
+              </span>
+              <span className="text-2xl font-mono text-cyan-600 dark:text-cyan-400 ml-1">C</span>
+            </div>
 
-      {/* Live NWP Stream Status & Toggle Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl bg-[#08101e] border border-cyan-500/30 text-xs font-mono backdrop-blur-md">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isLiveMode ? 'bg-emerald-400' : 'bg-slate-400'}`} />
-              <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${isLiveMode ? 'bg-emerald-500' : 'bg-slate-500'}`} />
-            </span>
-            <span className={`font-bold uppercase tracking-wider ${isLiveMode ? 'text-emerald-400' : 'text-slate-400'}`}>
-              {isLiveMode ? '● REAL-TIME NWP FEEDS' : '○ SIMULATED BASELINE'}
-            </span>
+            <div className="space-y-1">
+              <div className="flex items-center gap-2.5">
+                <span className="font-orbitron font-bold text-xl text-slate-900 dark:text-slate-100">
+                  {currentRegion.name}
+                </span>
+                <span className="text-xs px-2.5 py-0.5 rounded-full bg-cyan-100 dark:bg-cyan-500/15 text-cyan-800 dark:text-cyan-300 font-mono border border-cyan-500/30">
+                  {currentRegion.state}
+                </span>
+              </div>
+              <p className="text-xs font-mono text-slate-600 dark:text-slate-400">
+                {currentRegion.terrain} · {currentRegion.monsoonPhase} · Lead: <span className="text-emerald-600 dark:text-emerald-400 font-bold">{currentRegion.leadModel}</span>
+              </p>
+            </div>
           </div>
 
-          <span className="text-slate-600 hidden md:inline">|</span>
+          {/* Right: Quick Region Selector + Consensus Badge */}
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-slate-300/80 dark:border-white/10 bg-slate-100 dark:bg-white/5">
+              <label className="text-[11px] font-mono text-slate-600 dark:text-slate-400 uppercase tracking-wider">{t('forecast_zone')}:</label>
+              <select
+                value={selectedRegionId}
+                onChange={e => setSelectedRegion(e.target.value)}
+                className="bg-transparent text-cyan-700 dark:text-cyan-400 text-xs font-mono font-bold focus:outline-none cursor-pointer"
+              >
+                {REGIONS.map(r => (
+                  <option key={r.id} value={r.id} className="bg-slate-900 text-slate-100">
+                    {r.name} ({r.baseConfidence}% {t('confidence')})
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <div className="text-[11px] text-slate-400 hidden md:flex items-center gap-1.5">
-            <Globe className="w-3.5 h-3.5 text-cyan-400" />
-            <span>ECMWF (0.25° IFS) + NOAA GFS + NCUM-IMD + Open-Meteo</span>
-          </div>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-emerald-500/30 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 text-xs font-mono sheen-badge">
+              <span>CONSENSUS:</span>
+              <span className="font-bold">{forecasts[0]?.consensus || currentRegion.baseConfidence}%</span>
+            </div>
 
-          {lastFetchedAt && isLiveMode && (
-            <span className="text-[10px] text-slate-500 font-mono hidden lg:inline">
-              (Synced: {lastFetchedAt} · {liveLatencies.openMeteo}ms)
-            </span>
-          )}
-        </div>
-
-        <div className="flex items-center gap-2">
-          {isLiveMode && (
+            {/* Synthetic Storm / Cloudburst Stress-Test Toggle */}
             <button
-              onClick={() => fetchLiveForecast(selectedRegionId)}
-              disabled={isFetchingLive}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-cyan-950 border border-cyan-500/40 hover:bg-cyan-900/60 text-cyan-300 text-[11px] font-mono transition"
-              title="Fetch fresh data from Open-Meteo"
+              onClick={toggleStormStressTest}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono text-xs font-bold transition-all shadow ${
+                isStormStressTestActive
+                  ? 'bg-rose-600 hover:bg-rose-500 text-white border border-rose-400 animate-pulse shadow-[0_0_15px_rgba(225,29,72,0.5)]'
+                  : 'bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700'
+              }`}
+              title="Simulate sudden extreme cloudburst event (>204.4mm) to evaluate automated red alerts and Bayesian spread response"
             >
-              <RefreshCw className={`w-3 h-3 ${isFetchingLive ? 'animate-spin text-cyan-400' : ''}`} />
-              <span>{isFetchingLive ? 'Syncing...' : 'Refresh Live'}</span>
+              <AlertTriangle className={`w-3.5 h-3.5 ${isStormStressTestActive ? 'text-white' : 'text-rose-500'}`} />
+              <span>{isStormStressTestActive ? '🔴 CLOUDBURST INJECTED' : '⚡ Stress-Test Storm'}</span>
             </button>
-          )}
+          </div>
+        </div>
 
-          <button
-            onClick={toggleLiveMode}
-            className={`px-2.5 py-1 rounded-lg text-[11px] font-mono border transition ${
-              isLiveMode
-                ? 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300 hover:bg-emerald-900/40'
-                : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700'
-            }`}
-          >
-            {isLiveMode ? 'Live Mode: ON' : 'Live Mode: OFF'}
-          </button>
+        {/* 7-Day Frosted Forecast Strip */}
+        <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5">
+          {forecasts.slice(0, 7).map((day, idx) => (
+            <div
+              key={idx}
+              className={`p-3 rounded-xl border transition-all text-center flex flex-col justify-between ${
+                idx === 0
+                  ? 'border-cyan-500/50 bg-cyan-50 dark:bg-cyan-500/10 shadow-[0_0_15px_rgba(0,229,255,0.15)]'
+                  : 'border-slate-200 dark:border-white/5 bg-slate-100/70 dark:bg-white/5 hover:border-slate-300 dark:hover:border-white/20'
+              }`}
+            >
+              <span className="text-[11px] font-mono text-slate-600 dark:text-slate-400 block">{day.time}</span>
+              <span className="font-orbitron font-bold text-lg text-slate-900 dark:text-slate-100 my-1 block">
+                {day.blendedTemp}°
+              </span>
+              <div className="text-[10px] font-mono flex items-center justify-center gap-1 text-cyan-700 dark:text-cyan-400 font-semibold">
+                <span>🌧️</span>
+                <span>{day.blendedRain}mm</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Live Stream Telemetry Footer */}
+        <div className="mt-4 pt-3 border-t border-slate-200/60 dark:border-white/5 flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-slate-600 dark:text-slate-400">
+          <div className="flex items-center gap-2.5">
+            <span className={`w-2 h-2 rounded-full ${isLiveMode ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`} />
+            <span className="font-bold text-slate-800 dark:text-slate-300">
+              {isLiveMode ? 'REAL-TIME 4-MODEL INGESTION' : 'SIMULATED BASELINE'}
+            </span>
+            <span className="text-slate-400 hidden sm:inline">|</span>
+            <span className="hidden sm:inline">ECMWF (0.25°) · GFS · NCUM-IMD · Open-Meteo</span>
+            {lastFetchedAt && isLiveMode && (
+              <span className="text-[10px] text-slate-500 hidden md:inline">({lastFetchedAt})</span>
+            )}
+          </div>
+
+          <div className="flex items-center gap-2">
+            {isLiveMode && (
+              <button
+                onClick={() => fetchLiveForecast(selectedRegionId)}
+                disabled={isFetchingLive}
+                className="flex items-center gap-1 px-2.5 py-1 rounded-lg border border-slate-300 dark:border-white/10 hover:border-cyan-500/40 text-cyan-700 dark:text-cyan-400 bg-white dark:bg-white/5 text-[11px] transition shadow-sm"
+              >
+                <RefreshCw className={`w-3 h-3 ${isFetchingLive ? 'animate-spin' : ''}`} />
+                <span>{isFetchingLive ? 'Syncing...' : 'Refresh'}</span>
+              </button>
+            )}
+            <button
+              onClick={toggleLiveMode}
+              className="px-2.5 py-1 rounded-lg border border-slate-300 dark:border-white/10 text-[11px] hover:border-cyan-500/40 transition bg-white dark:bg-white/5 text-slate-700 dark:text-slate-300 shadow-sm"
+            >
+              {isLiveMode ? 'Live Mode: ON' : 'Live Mode: OFF'}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -182,8 +252,8 @@ export const Dashboard = () => {
             title="Live Model Trust Distribution"
             badge={<span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30">BAYESIAN SOFTMAX</span>}
           >
-            <p className="text-[11px] text-slate-400 font-sans mb-3 leading-relaxed">
-              This pie shows how much we trust each weather model right now for <strong className="text-slate-200">{currentRegion.name}</strong>.
+            <p className="text-[11px] text-slate-600 dark:text-slate-400 font-sans mb-3 leading-relaxed">
+              This pie shows how much we trust each weather model right now for <strong className="text-slate-800 dark:text-slate-200">{currentRegion.name}</strong>.
               Bigger slice = more accurate recently = more influence on your forecast.
             </p>
             <ModelWeightPie weights={activeWeights} />
@@ -194,8 +264,8 @@ export const Dashboard = () => {
                 const color = colorMap[key] || '#888';
                 return (
                   <div key={key} className="flex items-center gap-2 text-[11px] font-mono">
-                    <span className="w-24 text-slate-400 truncate">{nameMap[key]}</span>
-                    <div className="flex-1 bg-slate-800/60 rounded-full h-1.5 overflow-hidden">
+                    <span className="w-24 text-slate-600 dark:text-slate-400 truncate">{nameMap[key]}</span>
+                    <div className="flex-1 bg-slate-200 dark:bg-slate-800/60 rounded-full h-1.5 overflow-hidden">
                       <div className="h-full rounded-full transition-all duration-700" style={{ width: `${val}%`, backgroundColor: color, boxShadow: `0 0 6px ${color}80` }} />
                     </div>
                     <span className="w-10 text-right font-bold" style={{ color }}>{val}%</span>
@@ -212,7 +282,7 @@ export const Dashboard = () => {
             title={t('chart_title')}
             badge={<span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30">7-DAY FORECAST</span>}
             headerAction={
-              <div className="flex bg-slate-900 border border-slate-800 rounded-lg p-0.5 text-xs font-mono">
+              <div className="flex bg-slate-100 dark:bg-black/40 border border-slate-300 dark:border-white/10 rounded-xl p-0.5 text-xs font-mono">
                 {[
                   { key: 'rain', label: t('rain') },
                   { key: 'temp', label: t('temperature') },
@@ -222,7 +292,11 @@ export const Dashboard = () => {
                   <button
                     key={m.key}
                     onClick={() => setActiveMetric(m.key)}
-                    className={`px-2.5 py-1 rounded transition ${activeMetric === m.key ? 'bg-cyan-500 text-black font-bold' : 'text-slate-400 hover:text-white'}`}
+                    className={`px-3 py-1 rounded-lg transition-all ${
+                      activeMetric === m.key
+                        ? 'bg-cyan-500 text-black font-bold shadow-[0_0_10px_rgba(0,229,255,0.4)]'
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                    }`}
                   >
                     {m.label}
                   </button>
@@ -231,33 +305,33 @@ export const Dashboard = () => {
             }
           >
             <BlendCompareChart data={forecasts} activeMetric={activeMetric} />
-            <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2 pt-3 border-t border-slate-800 text-xs font-mono">
-              <div className="bg-black/30 p-2 rounded">
-                <span className="text-slate-400 text-[10px] block">{t('confidence')}</span>
-                <span className="text-cyan-400 font-bold text-sm">{currentRegion.baseConfidence}%</span>
+            <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-3 border-t border-slate-200 dark:border-white/10 text-xs font-mono">
+              <div className="bg-slate-100/70 dark:bg-white/5 p-2.5 rounded-xl border border-slate-200/80 dark:border-white/5">
+                <span className="text-slate-500 dark:text-slate-400 text-[10px] block">{t('confidence')}</span>
+                <span className="text-cyan-700 dark:text-cyan-400 font-bold text-sm">{currentRegion.baseConfidence}%</span>
               </div>
-              <div className="bg-black/30 p-2 rounded">
-                <span className="text-slate-400 text-[10px] block">TOP MODEL</span>
-                <span className="text-emerald-400 font-bold text-sm">{currentRegion.leadModel.split('-')[0]}</span>
+              <div className="bg-slate-100/70 dark:bg-white/5 p-2.5 rounded-xl border border-slate-200/80 dark:border-white/5">
+                <span className="text-slate-500 dark:text-slate-400 text-[10px] block">TOP MODEL</span>
+                <span className="text-emerald-700 dark:text-emerald-400 font-bold text-sm">{currentRegion.leadModel.split('-')[0]}</span>
               </div>
-              <div className="bg-black/30 p-2 rounded">
-                <span className="text-slate-400 text-[10px] block">KALMAN λ</span>
-                <span className="text-white font-bold text-sm">0.85</span>
+              <div className="bg-slate-100/70 dark:bg-white/5 p-2.5 rounded-xl border border-slate-200/80 dark:border-white/5">
+                <span className="text-slate-500 dark:text-slate-400 text-[10px] block">KALMAN λ</span>
+                <span className="text-slate-900 dark:text-slate-100 font-bold text-sm">0.85</span>
               </div>
-              <div className="bg-black/30 p-2 rounded">
-                <span className="text-slate-400 text-[10px] block">SENSORS</span>
-                <span className="text-cyan-300 font-bold text-sm">{currentRegion.activeSensors}</span>
+              <div className="bg-slate-100/70 dark:bg-white/5 p-2.5 rounded-xl border border-slate-200/80 dark:border-white/5">
+                <span className="text-slate-500 dark:text-slate-400 text-[10px] block">SENSORS</span>
+                <span className="text-cyan-800 dark:text-cyan-300 font-bold text-sm">{currentRegion.activeSensors}</span>
               </div>
             </div>
           </GlassCard>
 
           <div>
             <div className="mb-2 flex items-center justify-between">
-              <h3 className="font-orbitron font-bold text-sm tracking-wide text-slate-200 flex items-center gap-2">
-                <SlidersHorizontal className="w-4 h-4 text-cyan-400" />
+              <h3 className="font-orbitron font-bold text-sm tracking-wide text-slate-800 dark:text-slate-200 flex items-center gap-2">
+                <SlidersHorizontal className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
                 {t('hazard_rain')} · {t('hazard_heat')} · {t('hazard_wind')}
               </h3>
-              <span className="text-[11px] font-mono text-slate-400">IMD Thresholds</span>
+              <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400">IMD Thresholds</span>
             </div>
             <SignalPanels signals={signals} />
           </div>
@@ -269,12 +343,12 @@ export const Dashboard = () => {
         title="Historical Accuracy: Blended vs Individual Models (15-day)"
         badge={<span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-500/30">LOWER ERROR = BETTER</span>}
       >
-        <p className="text-xs text-slate-400 font-sans mb-3 leading-relaxed">
+        <p className="text-xs text-slate-600 dark:text-slate-400 font-sans mb-3 leading-relaxed">
           This chart shows how our blended forecast compares to using just one model. Lower bars for Rainfall/Temperature/Wind Error = more accurate. Higher bar for Threat Score = better at catching dangerous events.
         </p>
         <SkillMetricChart data={skillMetrics} />
-        <div className="mt-4 p-3 bg-cyan-950/20 border border-cyan-500/20 rounded-lg text-xs text-slate-300 font-sans leading-relaxed">
-          <strong className="text-cyan-400">Result:</strong> Blending reduces forecast errors by <strong>48–62%</strong> compared to any single model — because no single model is always right.
+        <div className="mt-4 p-3 bg-cyan-50 dark:bg-cyan-950/20 border border-cyan-200 dark:border-cyan-500/20 rounded-lg text-xs text-slate-700 dark:text-slate-300 font-sans leading-relaxed">
+          <strong className="text-cyan-700 dark:text-cyan-400">Result:</strong> Blending reduces forecast errors by <strong>48–62%</strong> compared to any single model — because no single model is always right.
         </div>
       </GlassCard>
     </div>

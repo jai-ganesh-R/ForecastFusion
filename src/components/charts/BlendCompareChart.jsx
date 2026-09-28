@@ -47,14 +47,14 @@ const CustomTooltip = ({ active, payload, label, activeMetric, visibleModels }) 
   const spread = rowData[`spread${capitalize(activeMetric)}`] ?? 0;
 
   return (
-    <div className="bg-[#0a1120]/95 backdrop-blur-md border border-cyan-500/40 rounded-xl p-3.5 text-xs font-mono shadow-[0_8px_32px_rgba(0,0,0,0.8)] min-w-[240px] z-50">
+    <div className="bg-white/95 dark:bg-[#0a1120]/95 backdrop-blur-xl border border-slate-300 dark:border-white/20 rounded-2xl p-4 text-xs font-mono shadow-2xl min-w-[240px] z-50 text-slate-900 dark:text-slate-100">
       {/* Header */}
-      <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-800 text-slate-300">
-        <span className="font-bold text-cyan-400">📅 Lead Time: {label}</span>
+      <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300">
+        <span className="font-bold text-cyan-700 dark:text-cyan-400">📅 Lead Time: {label}</span>
         <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${
-          consensus >= 88 ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-500/30' :
-          consensus >= 78 ? 'bg-amber-950/80 text-amber-400 border border-amber-500/30' :
-          'bg-rose-950/80 text-rose-400 border border-rose-500/30'
+          consensus >= 88 ? 'bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-400 border border-emerald-500/30' :
+          consensus >= 78 ? 'bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-400 border border-amber-500/30' :
+          'bg-rose-100 dark:bg-rose-950/80 text-rose-800 dark:text-rose-400 border border-rose-500/30'
         }`}>
           {consensus}% Consensus
         </span>
@@ -286,31 +286,31 @@ export const BlendCompareChart = ({ data, activeMetric = 'rain' }) => {
       </div>
 
       {/* ── Key Summary Metric Ribbon ─────────────────────────────────── */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">
-        <div className="p-2.5 rounded-lg bg-black/40 border border-slate-800/80">
-          <span className="text-[10px] text-slate-400 block uppercase">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs font-mono">
+        <div className="p-3 rounded-xl bg-slate-100/70 dark:bg-white/5 border border-slate-200/80 dark:border-white/5">
+          <span className="text-[10px] text-slate-500 dark:text-slate-400 block uppercase">
             {activeMetric === 'rain' ? '7-Day Total Rain' : 'Peak Value'}
           </span>
-          <span className="text-cyan-400 font-bold text-sm">
+          <span className="text-cyan-700 dark:text-cyan-400 font-bold text-sm">
             {activeMetric === 'rain' ? `${sumVal} mm` : `${peakVal} ${unitLabel}`}
           </span>
         </div>
 
-        <div className="p-2.5 rounded-lg bg-black/40 border border-slate-800/80">
-          <span className="text-[10px] text-slate-400 block uppercase">Model Consensus</span>
-          <span className="text-emerald-400 font-bold text-sm flex items-center gap-1">
+        <div className="p-3 rounded-xl bg-slate-100/70 dark:bg-white/5 border border-slate-200/80 dark:border-white/5">
+          <span className="text-[10px] text-slate-500 dark:text-slate-400 block uppercase">Model Consensus</span>
+          <span className="text-emerald-700 dark:text-emerald-400 font-bold text-sm flex items-center gap-1">
             <ShieldCheck className="w-3.5 h-3.5 inline" /> {avgConsensus}% High
           </span>
         </div>
 
-        <div className="p-2.5 rounded-lg bg-black/40 border border-slate-800/80">
-          <span className="text-[10px] text-slate-400 block uppercase">Avg Spread (±)</span>
-          <span className="text-amber-400 font-bold text-sm">±{avgSpread} {unitLabel}</span>
+        <div className="p-3 rounded-xl bg-slate-100/70 dark:bg-white/5 border border-slate-200/80 dark:border-white/5">
+          <span className="text-[10px] text-slate-500 dark:text-slate-400 block uppercase">Avg Spread (±)</span>
+          <span className="text-amber-700 dark:text-amber-400 font-bold text-sm">±{avgSpread} {unitLabel}</span>
         </div>
 
-        <div className="p-2.5 rounded-lg bg-black/40 border border-slate-800/80">
-          <span className="text-[10px] text-slate-400 block uppercase">Ensemble Anchor</span>
-          <span className="text-sky-300 font-bold text-sm truncate block">
+        <div className="p-3 rounded-xl bg-slate-100/70 dark:bg-white/5 border border-slate-200/80 dark:border-white/5">
+          <span className="text-[10px] text-slate-500 dark:text-slate-400 block uppercase">Ensemble Anchor</span>
+          <span className="text-sky-800 dark:text-sky-300 font-bold text-sm truncate block">
             {data[0]?.leadModelMatch || 'ECMWF'} Leads
           </span>
         </div>

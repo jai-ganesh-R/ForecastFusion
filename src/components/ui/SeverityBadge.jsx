@@ -3,10 +3,10 @@ import clsx from 'clsx';
 
 export const SeverityBadge = ({ severity, className = "" }) => {
   const styles = {
-    LOW: "bg-emerald-950/70 border-emerald-500/50 text-emerald-300 shadow-[0_0_8px_rgba(0,230,118,0.2)]",
-    MODERATE: "bg-amber-950/70 border-amber-500/50 text-amber-300 shadow-[0_0_8px_rgba(255,176,32,0.2)]",
-    HIGH: "bg-orange-950/70 border-orange-500/50 text-orange-300 shadow-[0_0_10px_rgba(249,115,22,0.25)]",
-    EXTREME: "bg-rose-950/80 border-rose-500/70 text-rose-300 shadow-[0_0_12px_rgba(255,59,92,0.3)] animate-pulse"
+    LOW: "bg-emerald-100 dark:bg-emerald-950/70 border-emerald-300 dark:border-emerald-500/50 text-emerald-800 dark:text-emerald-300 shadow-sm",
+    MODERATE: "bg-amber-100 dark:bg-amber-950/70 border-amber-300 dark:border-amber-500/50 text-amber-800 dark:text-amber-300 shadow-sm",
+    HIGH: "bg-orange-100 dark:bg-orange-950/70 border-orange-300 dark:border-orange-500/50 text-orange-800 dark:text-orange-300 shadow-sm",
+    EXTREME: "bg-rose-100 dark:bg-rose-950/80 border-rose-300 dark:border-rose-500/70 text-rose-800 dark:text-rose-300 shadow-sm animate-pulse"
   };
 
   const currentStyle = styles[severity?.toUpperCase()] || styles.LOW;
