@@ -143,6 +143,8 @@ export const Navbar = () => {
                     ? 'bg-cyan-500 text-black font-bold shadow-[0_0_12px_rgba(0,229,255,0.5)]'
                     : 'text-slate-400 hover:text-white'
                 }`}
+                title="Advanced NWP and scientific curves"
+              >
                 <span>🔬 Pro</span>
               </button>
             </div>
